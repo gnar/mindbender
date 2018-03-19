@@ -7,9 +7,6 @@ Distributed in this package and via CVS:
 - TinyXML              ./tinyxml/     (http://tinyxml.sourceforge.net)
 
 External libraries:
-- PhysFS               ./physfs/      (Get it at http://www.icculus.org/PhysFS)
+- PhysFS 1.1.0         ./physfs/      (Get it at http://www.icculus.org/PhysFS)
 - FMODex               ./fmod/        (Get it at http://www.fmod.org)
-
-
-
 
