@@ -20,6 +20,7 @@
 #include "scenelexer.h"
 #include <assert.h>
 
+#include <cstring>
 #include <iostream>
 using namespace std;
 
@@ -168,7 +169,7 @@ SceneLexer::Lexeme SceneLexer::readString()
 
 static struct CLKeywordDef
 {
-	char *name;
+	const char *name;
 	SceneLexer::Token tok;
 } keywords[] = {
 	{"item", SceneLexer::TOK_ITEM},
