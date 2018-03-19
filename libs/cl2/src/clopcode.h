@@ -110,7 +110,7 @@ enum CLArgType
 struct CLOpcodeDesc
 {
 	CLOpcode op;
-	char *name;
+	const char *name;
 	CLArgType arg_type;
 };
 

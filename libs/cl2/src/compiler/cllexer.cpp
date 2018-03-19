@@ -21,6 +21,7 @@
 #include "cllexer.h"
 
 #include <assert.h>
+#include <cstring>
 
 CLLexeme CLLexer::error(const char *reason)
 {
@@ -207,7 +208,7 @@ CLLexeme CLLexer::readString()
 
 static struct CLKeywordDef
 {
-	char *name;
+	const char *name;
 	CLToken tok;
 } keywords[] = {
 	{"if", TOK_IF},
