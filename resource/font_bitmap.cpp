@@ -114,7 +114,7 @@ namespace Res
 
 	void Font_Bitmap::LoadXML()
 	{
-		std::auto_ptr<TiXmlDocument> doc(LoadXMLDocument(Manager.OpenFile(GetID())));
+		std::unique_ptr<TiXmlDocument> doc(LoadXMLDocument(Manager.OpenFile(GetID())));
 
 		glyphs.resize(256, (Glyph*)0);
 

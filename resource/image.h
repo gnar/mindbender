@@ -29,7 +29,7 @@ namespace Res
 {
 	class Image : public Resource
 	{
-		std::auto_ptr<DCDraw::Texture> texture;
+		std::unique_ptr<DCDraw::Texture> texture;
 
 	public:
 		Image(const Resource::ID &id);

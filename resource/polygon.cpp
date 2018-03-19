@@ -24,6 +24,7 @@
 
 #include <cstdio>
 
+#include <memory>
 #include <iostream>
 using namespace std;
 
@@ -51,7 +52,7 @@ namespace Res
 
 	void Polygon::LoadXML()
 	{
-		std::auto_ptr<TiXmlDocument> doc(LoadXMLDocument(Manager.OpenFile(GetID())));
+		std::unique_ptr<TiXmlDocument> doc(LoadXMLDocument(Manager.OpenFile(GetID())));
 
 		TiXmlElement *polygon_elem = doc->FirstChildElement("polygon");
 		TiXmlElement *vertex_elem  = polygon_elem ? polygon_elem->FirstChildElement("vertex") : 0;
