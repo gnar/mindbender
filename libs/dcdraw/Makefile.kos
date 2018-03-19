@@ -1,0 +1,18 @@
+OBJS += kos/kos_drv.o
+OBJS += kos/texture.o
+OBJS += canvas.o
+OBJS += canvas_png.o
+OBJS += dcdraw.o
+
+all: lib
+
+include $(KOS_BASE)/Makefile.rules
+
+CFLAGS = -O2 -DDCDRAW_USE_KOS
+
+lib: $(OBJS) 
+	$(KOS_AR) rcs dcdraw_kos.a $(OBJS)
+
+clean:
+	-rm -f dcdraw_kos.a $(OBJS)
+

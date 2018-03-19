@@ -1,0 +1,2 @@
+- Clean up the CLContext class, create better GC abstraction
+- Less namespace polution when one includes cl2.h

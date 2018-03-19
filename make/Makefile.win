@@ -1,0 +1,303 @@
+# Project: MindBender
+# Makefile created by Dev-C++ 4.9.9.2
+
+CPP  = g++.exe
+CC   = gcc.exe
+WINDRES = windres.exe
+RES  = MindBender_private.res
+OBJ  = ../cl2/src/clopcode.o ../cl2/src/compiler/clcompiler.o ../cl2/src/compiler/clifunction.o ../cl2/src/compiler/cliinstruction.o ../cl2/src/compiler/cllexer.o ../cl2/src/value/clarray.o ../cl2/src/value/clexternalfunction.o ../cl2/src/value/clfunction.o ../cl2/src/value/clobject.o ../cl2/src/value/clstring.o ../cl2/src/value/cltable.o ../cl2/src/value/cluserdata.o ../cl2/src/value/clvalue.o ../cl2/src/vm/clcollectable.o ../cl2/src/vm/clcontext.o ../cl2/src/vm/clmathmodule.o ../cl2/src/vm/clmodule.o ../cl2/src/vm/clsysmodule.o ../cl2/src/vm/clthread.o ../cl2/src/serialize/clserialloader.o ../cl2/src/serialize/clserialsaver.o ../camera.o ../configuration.o ../events.o ../game.o ../main.o ../saveload.o ../sound.o ../sushimodule.o ../timers.o ../video.o ../object/actor.o ../object/bagitem.o ../object/font.o ../object/item.o ../object/room.o ../object/roomobject.o ../object/shape.o ../object/sound.o ../object/sprite.o ../object/tableobject.o ../object/timer.o ../resource/font.o ../resource/font_bitmap.o ../resource/image.o ../resource/manager.o ../resource/polygon.o ../resource/resource.o ../resource/sound.o ../resource/sprite.o ../resource/sprite_anim.o ../resource/sprite_simple.o ../resource/tools/polygonpath.o ../scene/gameloader.o ../scene/scenelexer.o ../scene/sceneloader.o ../scene/sceneparser.o ../dcdraw/canvas.o ../dcdraw/canvas_png.o ../dcdraw/dcdraw.o ../dcdraw/opengl/opengl_drv.o ../dcdraw/opengl/texture.o ../libs/physfs/archivers/dir.o ../libs/physfs/archivers/grp.o ../libs/physfs/archivers/hog.o ../libs/physfs/archivers/mix.o ../libs/physfs/archivers/mvl.o ../libs/physfs/archivers/qpak.o ../libs/physfs/archivers/wad.o ../libs/physfs/archivers/zip.o ../libs/physfs/platform/unix.o ../libs/physfs/platform/posix.o ../libs/physfs/zlib123/adler32.o ../libs/physfs/zlib123/compress.o ../libs/physfs/zlib123/crc32.o ../libs/physfs/zlib123/deflate.o ../libs/physfs/zlib123/gzio.o ../libs/physfs/zlib123/infback.o ../libs/physfs/zlib123/inffast.o ../libs/physfs/zlib123/inflate.o ../libs/physfs/zlib123/inftrees.o ../libs/physfs/zlib123/trees.o ../libs/physfs/zlib123/uncompr.o ../libs/physfs/zlib123/zutil.o ../libs/physfs/physfs.o ../libs/physfs/physfs_byteorder.o ../libs/tinyxml/tinystr.o ../libs/tinyxml/tinyxml.o ../libs/tinyxml/tinyxmlerror.o ../libs/tinyxml/tinyxmlparser.o ../libs/physfs/platform/win32.o $(RES)
+LINKOBJ  = ../cl2/src/clopcode.o ../cl2/src/compiler/clcompiler.o ../cl2/src/compiler/clifunction.o ../cl2/src/compiler/cliinstruction.o ../cl2/src/compiler/cllexer.o ../cl2/src/value/clarray.o ../cl2/src/value/clexternalfunction.o ../cl2/src/value/clfunction.o ../cl2/src/value/clobject.o ../cl2/src/value/clstring.o ../cl2/src/value/cltable.o ../cl2/src/value/cluserdata.o ../cl2/src/value/clvalue.o ../cl2/src/vm/clcollectable.o ../cl2/src/vm/clcontext.o ../cl2/src/vm/clmathmodule.o ../cl2/src/vm/clmodule.o ../cl2/src/vm/clsysmodule.o ../cl2/src/vm/clthread.o ../cl2/src/serialize/clserialloader.o ../cl2/src/serialize/clserialsaver.o ../camera.o ../configuration.o ../events.o ../game.o ../main.o ../saveload.o ../sound.o ../sushimodule.o ../timers.o ../video.o ../object/actor.o ../object/bagitem.o ../object/font.o ../object/item.o ../object/room.o ../object/roomobject.o ../object/shape.o ../object/sound.o ../object/sprite.o ../object/tableobject.o ../object/timer.o ../resource/font.o ../resource/font_bitmap.o ../resource/image.o ../resource/manager.o ../resource/polygon.o ../resource/resource.o ../resource/sound.o ../resource/sprite.o ../resource/sprite_anim.o ../resource/sprite_simple.o ../resource/tools/polygonpath.o ../scene/gameloader.o ../scene/scenelexer.o ../scene/sceneloader.o ../scene/sceneparser.o ../dcdraw/canvas.o ../dcdraw/canvas_png.o ../dcdraw/dcdraw.o ../dcdraw/opengl/opengl_drv.o ../dcdraw/opengl/texture.o ../libs/physfs/archivers/dir.o ../libs/physfs/archivers/grp.o ../libs/physfs/archivers/hog.o ../libs/physfs/archivers/mix.o ../libs/physfs/archivers/mvl.o ../libs/physfs/archivers/qpak.o ../libs/physfs/archivers/wad.o ../libs/physfs/archivers/zip.o ../libs/physfs/platform/unix.o ../libs/physfs/platform/posix.o ../libs/physfs/zlib123/adler32.o ../libs/physfs/zlib123/compress.o ../libs/physfs/zlib123/crc32.o ../libs/physfs/zlib123/deflate.o ../libs/physfs/zlib123/gzio.o ../libs/physfs/zlib123/infback.o ../libs/physfs/zlib123/inffast.o ../libs/physfs/zlib123/inflate.o ../libs/physfs/zlib123/inftrees.o ../libs/physfs/zlib123/trees.o ../libs/physfs/zlib123/uncompr.o ../libs/physfs/zlib123/zutil.o ../libs/physfs/physfs.o ../libs/physfs/physfs_byteorder.o ../libs/tinyxml/tinystr.o ../libs/tinyxml/tinyxml.o ../libs/tinyxml/tinyxmlerror.o ../libs/tinyxml/tinyxmlparser.o ../libs/physfs/platform/win32.o $(RES)
+LIBS =  -L"d:/Dev-Cpp/lib" -L"../libs/fmod/api/lib" -mwindows -lmingw32 -lSDLmain -lSDL -lopengl32 -lpng  -lfmodex  -march=pentium 
+INCS =  -I"d:/Dev-Cpp/include"  -I".."  -I"../cl2"  -I"../dcdraw"  -I"../libs"  -I"../libs/fmod/api/inc"  -I"../libs/physfs" 
+CXXINCS =  -I"d:/Dev-Cpp/lib/gcc/mingw32/3.4.2/include"  -I"d:/Dev-Cpp/include/c++/3.4.2/backward"  -I"d:/Dev-Cpp/include/c++/3.4.2/mingw32"  -I"d:/Dev-Cpp/include/c++/3.4.2"  -I"d:/Dev-Cpp/include"  -I".."  -I"../cl2"  -I"../dcdraw"  -I"../libs"  -I"../libs/fmod/api/inc"  -I"../libs/physfs" 
+BIN  = ../MindBender.exe
+CXXFLAGS = $(CXXINCS) -DMINDBENDER_EXT -DDCDRAW_USE_OPENGL   -march=pentium
+CFLAGS = $(INCS) -Dmain=SDL_main -DPHYSFS_EXPORTS -DPHYSFS_SUPPORTS_GRP -DPHYSFS_SUPPORTS_WAD -DPHYSFS_SUPPORTS_ZIP -DPHYSFS_SUPPORTS_QPAK -DPHYSFS_SUPPORTS_HOG -DPHYSFS_SUPPORTS_MVL   -march=pentium
+RM = rm -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before ../MindBender.exe all-after
+
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CPP) $(LINKOBJ) -o "..\MindBender.exe" $(LIBS)
+
+../cl2/src/clopcode.o: ../cl2/src/clopcode.cpp
+	$(CPP) -c ../cl2/src/clopcode.cpp -o ../cl2/src/clopcode.o $(CXXFLAGS)
+
+../cl2/src/compiler/clcompiler.o: ../cl2/src/compiler/clcompiler.cpp
+	$(CPP) -c ../cl2/src/compiler/clcompiler.cpp -o ../cl2/src/compiler/clcompiler.o $(CXXFLAGS)
+
+../cl2/src/compiler/clifunction.o: ../cl2/src/compiler/clifunction.cpp
+	$(CPP) -c ../cl2/src/compiler/clifunction.cpp -o ../cl2/src/compiler/clifunction.o $(CXXFLAGS)
+
+../cl2/src/compiler/cliinstruction.o: ../cl2/src/compiler/cliinstruction.cpp
+	$(CPP) -c ../cl2/src/compiler/cliinstruction.cpp -o ../cl2/src/compiler/cliinstruction.o $(CXXFLAGS)
+
+../cl2/src/compiler/cllexer.o: ../cl2/src/compiler/cllexer.cpp
+	$(CPP) -c ../cl2/src/compiler/cllexer.cpp -o ../cl2/src/compiler/cllexer.o $(CXXFLAGS)
+
+../cl2/src/value/clarray.o: ../cl2/src/value/clarray.cpp
+	$(CPP) -c ../cl2/src/value/clarray.cpp -o ../cl2/src/value/clarray.o $(CXXFLAGS)
+
+../cl2/src/value/clexternalfunction.o: ../cl2/src/value/clexternalfunction.cpp
+	$(CPP) -c ../cl2/src/value/clexternalfunction.cpp -o ../cl2/src/value/clexternalfunction.o $(CXXFLAGS)
+
+../cl2/src/value/clfunction.o: ../cl2/src/value/clfunction.cpp
+	$(CPP) -c ../cl2/src/value/clfunction.cpp -o ../cl2/src/value/clfunction.o $(CXXFLAGS)
+
+../cl2/src/value/clobject.o: ../cl2/src/value/clobject.cpp
+	$(CPP) -c ../cl2/src/value/clobject.cpp -o ../cl2/src/value/clobject.o $(CXXFLAGS)
+
+../cl2/src/value/clstring.o: ../cl2/src/value/clstring.cpp
+	$(CPP) -c ../cl2/src/value/clstring.cpp -o ../cl2/src/value/clstring.o $(CXXFLAGS)
+
+../cl2/src/value/cltable.o: ../cl2/src/value/cltable.cpp
+	$(CPP) -c ../cl2/src/value/cltable.cpp -o ../cl2/src/value/cltable.o $(CXXFLAGS)
+
+../cl2/src/value/cluserdata.o: ../cl2/src/value/cluserdata.cpp
+	$(CPP) -c ../cl2/src/value/cluserdata.cpp -o ../cl2/src/value/cluserdata.o $(CXXFLAGS)
+
+../cl2/src/value/clvalue.o: ../cl2/src/value/clvalue.cpp
+	$(CPP) -c ../cl2/src/value/clvalue.cpp -o ../cl2/src/value/clvalue.o $(CXXFLAGS)
+
+../cl2/src/vm/clcollectable.o: ../cl2/src/vm/clcollectable.cpp
+	$(CPP) -c ../cl2/src/vm/clcollectable.cpp -o ../cl2/src/vm/clcollectable.o $(CXXFLAGS)
+
+../cl2/src/vm/clcontext.o: ../cl2/src/vm/clcontext.cpp
+	$(CPP) -c ../cl2/src/vm/clcontext.cpp -o ../cl2/src/vm/clcontext.o $(CXXFLAGS)
+
+../cl2/src/vm/clmathmodule.o: ../cl2/src/vm/clmathmodule.cpp
+	$(CPP) -c ../cl2/src/vm/clmathmodule.cpp -o ../cl2/src/vm/clmathmodule.o $(CXXFLAGS)
+
+../cl2/src/vm/clmodule.o: ../cl2/src/vm/clmodule.cpp
+	$(CPP) -c ../cl2/src/vm/clmodule.cpp -o ../cl2/src/vm/clmodule.o $(CXXFLAGS)
+
+../cl2/src/vm/clsysmodule.o: ../cl2/src/vm/clsysmodule.cpp
+	$(CPP) -c ../cl2/src/vm/clsysmodule.cpp -o ../cl2/src/vm/clsysmodule.o $(CXXFLAGS)
+
+../cl2/src/vm/clthread.o: ../cl2/src/vm/clthread.cpp
+	$(CPP) -c ../cl2/src/vm/clthread.cpp -o ../cl2/src/vm/clthread.o $(CXXFLAGS)
+
+../cl2/src/serialize/clserialloader.o: ../cl2/src/serialize/clserialloader.cpp
+	$(CPP) -c ../cl2/src/serialize/clserialloader.cpp -o ../cl2/src/serialize/clserialloader.o $(CXXFLAGS)
+
+../cl2/src/serialize/clserialsaver.o: ../cl2/src/serialize/clserialsaver.cpp
+	$(CPP) -c ../cl2/src/serialize/clserialsaver.cpp -o ../cl2/src/serialize/clserialsaver.o $(CXXFLAGS)
+
+../camera.o: ../camera.cpp
+	$(CPP) -c ../camera.cpp -o ../camera.o $(CXXFLAGS)
+
+../configuration.o: ../configuration.cpp
+	$(CPP) -c ../configuration.cpp -o ../configuration.o $(CXXFLAGS)
+
+../events.o: ../events.cpp
+	$(CPP) -c ../events.cpp -o ../events.o $(CXXFLAGS)
+
+../game.o: ../game.cpp
+	$(CPP) -c ../game.cpp -o ../game.o $(CXXFLAGS)
+
+../main.o: ../main.cpp
+	$(CPP) -c ../main.cpp -o ../main.o $(CXXFLAGS)
+
+../saveload.o: ../saveload.cpp
+	$(CPP) -c ../saveload.cpp -o ../saveload.o $(CXXFLAGS)
+
+../sound.o: ../sound.cpp
+	$(CPP) -c ../sound.cpp -o ../sound.o $(CXXFLAGS)
+
+../sushimodule.o: ../sushimodule.cpp
+	$(CPP) -c ../sushimodule.cpp -o ../sushimodule.o $(CXXFLAGS)
+
+../timers.o: ../timers.cpp
+	$(CPP) -c ../timers.cpp -o ../timers.o $(CXXFLAGS)
+
+../video.o: ../video.cpp
+	$(CPP) -c ../video.cpp -o ../video.o $(CXXFLAGS)
+
+../object/actor.o: ../object/actor.cpp
+	$(CPP) -c ../object/actor.cpp -o ../object/actor.o $(CXXFLAGS)
+
+../object/bagitem.o: ../object/bagitem.cpp
+	$(CPP) -c ../object/bagitem.cpp -o ../object/bagitem.o $(CXXFLAGS)
+
+../object/font.o: ../object/font.cpp
+	$(CPP) -c ../object/font.cpp -o ../object/font.o $(CXXFLAGS)
+
+../object/item.o: ../object/item.cpp
+	$(CPP) -c ../object/item.cpp -o ../object/item.o $(CXXFLAGS)
+
+../object/room.o: ../object/room.cpp
+	$(CPP) -c ../object/room.cpp -o ../object/room.o $(CXXFLAGS)
+
+../object/roomobject.o: ../object/roomobject.cpp
+	$(CPP) -c ../object/roomobject.cpp -o ../object/roomobject.o $(CXXFLAGS)
+
+../object/shape.o: ../object/shape.cpp
+	$(CPP) -c ../object/shape.cpp -o ../object/shape.o $(CXXFLAGS)
+
+../object/sound.o: ../object/sound.cpp
+	$(CPP) -c ../object/sound.cpp -o ../object/sound.o $(CXXFLAGS)
+
+../object/sprite.o: ../object/sprite.cpp
+	$(CPP) -c ../object/sprite.cpp -o ../object/sprite.o $(CXXFLAGS)
+
+../object/tableobject.o: ../object/tableobject.cpp
+	$(CPP) -c ../object/tableobject.cpp -o ../object/tableobject.o $(CXXFLAGS)
+
+../object/timer.o: ../object/timer.cpp
+	$(CPP) -c ../object/timer.cpp -o ../object/timer.o $(CXXFLAGS)
+
+../resource/font.o: ../resource/font.cpp
+	$(CPP) -c ../resource/font.cpp -o ../resource/font.o $(CXXFLAGS)
+
+../resource/font_bitmap.o: ../resource/font_bitmap.cpp
+	$(CPP) -c ../resource/font_bitmap.cpp -o ../resource/font_bitmap.o $(CXXFLAGS)
+
+../resource/image.o: ../resource/image.cpp
+	$(CPP) -c ../resource/image.cpp -o ../resource/image.o $(CXXFLAGS)
+
+../resource/manager.o: ../resource/manager.cpp
+	$(CPP) -c ../resource/manager.cpp -o ../resource/manager.o $(CXXFLAGS)
+
+../resource/polygon.o: ../resource/polygon.cpp
+	$(CPP) -c ../resource/polygon.cpp -o ../resource/polygon.o $(CXXFLAGS)
+
+../resource/resource.o: ../resource/resource.cpp
+	$(CPP) -c ../resource/resource.cpp -o ../resource/resource.o $(CXXFLAGS)
+
+../resource/sound.o: ../resource/sound.cpp
+	$(CPP) -c ../resource/sound.cpp -o ../resource/sound.o $(CXXFLAGS)
+
+../resource/sprite.o: ../resource/sprite.cpp
+	$(CPP) -c ../resource/sprite.cpp -o ../resource/sprite.o $(CXXFLAGS)
+
+../resource/sprite_anim.o: ../resource/sprite_anim.cpp
+	$(CPP) -c ../resource/sprite_anim.cpp -o ../resource/sprite_anim.o $(CXXFLAGS)
+
+../resource/sprite_simple.o: ../resource/sprite_simple.cpp
+	$(CPP) -c ../resource/sprite_simple.cpp -o ../resource/sprite_simple.o $(CXXFLAGS)
+
+../resource/tools/polygonpath.o: ../resource/tools/polygonpath.cpp
+	$(CPP) -c ../resource/tools/polygonpath.cpp -o ../resource/tools/polygonpath.o $(CXXFLAGS)
+
+../scene/gameloader.o: ../scene/gameloader.cpp
+	$(CPP) -c ../scene/gameloader.cpp -o ../scene/gameloader.o $(CXXFLAGS)
+
+../scene/scenelexer.o: ../scene/scenelexer.cpp
+	$(CPP) -c ../scene/scenelexer.cpp -o ../scene/scenelexer.o $(CXXFLAGS)
+
+../scene/sceneloader.o: ../scene/sceneloader.cpp
+	$(CPP) -c ../scene/sceneloader.cpp -o ../scene/sceneloader.o $(CXXFLAGS)
+
+../scene/sceneparser.o: ../scene/sceneparser.cpp
+	$(CPP) -c ../scene/sceneparser.cpp -o ../scene/sceneparser.o $(CXXFLAGS)
+
+../dcdraw/canvas.o: ../dcdraw/canvas.cpp
+	$(CPP) -c ../dcdraw/canvas.cpp -o ../dcdraw/canvas.o $(CXXFLAGS)
+
+../dcdraw/canvas_png.o: ../dcdraw/canvas_png.cpp
+	$(CPP) -c ../dcdraw/canvas_png.cpp -o ../dcdraw/canvas_png.o $(CXXFLAGS)
+
+../dcdraw/dcdraw.o: ../dcdraw/dcdraw.cpp
+	$(CPP) -c ../dcdraw/dcdraw.cpp -o ../dcdraw/dcdraw.o $(CXXFLAGS)
+
+../dcdraw/opengl/opengl_drv.o: ../dcdraw/opengl/opengl_drv.cpp
+	$(CPP) -c ../dcdraw/opengl/opengl_drv.cpp -o ../dcdraw/opengl/opengl_drv.o $(CXXFLAGS)
+
+../dcdraw/opengl/texture.o: ../dcdraw/opengl/texture.cpp
+	$(CPP) -c ../dcdraw/opengl/texture.cpp -o ../dcdraw/opengl/texture.o $(CXXFLAGS)
+
+../libs/physfs/archivers/dir.o: ../libs/physfs/archivers/dir.c
+	$(CC) -c ../libs/physfs/archivers/dir.c -o ../libs/physfs/archivers/dir.o $(CFLAGS)
+
+../libs/physfs/archivers/grp.o: ../libs/physfs/archivers/grp.c
+	$(CC) -c ../libs/physfs/archivers/grp.c -o ../libs/physfs/archivers/grp.o $(CFLAGS)
+
+../libs/physfs/archivers/hog.o: ../libs/physfs/archivers/hog.c
+	$(CC) -c ../libs/physfs/archivers/hog.c -o ../libs/physfs/archivers/hog.o $(CFLAGS)
+
+../libs/physfs/archivers/mix.o: ../libs/physfs/archivers/mix.c
+	$(CC) -c ../libs/physfs/archivers/mix.c -o ../libs/physfs/archivers/mix.o $(CFLAGS)
+
+../libs/physfs/archivers/mvl.o: ../libs/physfs/archivers/mvl.c
+	$(CC) -c ../libs/physfs/archivers/mvl.c -o ../libs/physfs/archivers/mvl.o $(CFLAGS)
+
+../libs/physfs/archivers/qpak.o: ../libs/physfs/archivers/qpak.c
+	$(CC) -c ../libs/physfs/archivers/qpak.c -o ../libs/physfs/archivers/qpak.o $(CFLAGS)
+
+../libs/physfs/archivers/wad.o: ../libs/physfs/archivers/wad.c
+	$(CC) -c ../libs/physfs/archivers/wad.c -o ../libs/physfs/archivers/wad.o $(CFLAGS)
+
+../libs/physfs/archivers/zip.o: ../libs/physfs/archivers/zip.c
+	$(CC) -c ../libs/physfs/archivers/zip.c -o ../libs/physfs/archivers/zip.o $(CFLAGS)
+
+../libs/physfs/platform/unix.o: ../libs/physfs/platform/unix.c
+	$(CC) -c ../libs/physfs/platform/unix.c -o ../libs/physfs/platform/unix.o $(CFLAGS)
+
+../libs/physfs/platform/posix.o: ../libs/physfs/platform/posix.c
+	$(CC) -c ../libs/physfs/platform/posix.c -o ../libs/physfs/platform/posix.o $(CFLAGS)
+
+../libs/physfs/zlib123/adler32.o: ../libs/physfs/zlib123/adler32.c
+	$(CC) -c ../libs/physfs/zlib123/adler32.c -o ../libs/physfs/zlib123/adler32.o $(CFLAGS)
+
+../libs/physfs/zlib123/compress.o: ../libs/physfs/zlib123/compress.c
+	$(CC) -c ../libs/physfs/zlib123/compress.c -o ../libs/physfs/zlib123/compress.o $(CFLAGS)
+
+../libs/physfs/zlib123/crc32.o: ../libs/physfs/zlib123/crc32.c
+	$(CC) -c ../libs/physfs/zlib123/crc32.c -o ../libs/physfs/zlib123/crc32.o $(CFLAGS)
+
+../libs/physfs/zlib123/deflate.o: ../libs/physfs/zlib123/deflate.c
+	$(CC) -c ../libs/physfs/zlib123/deflate.c -o ../libs/physfs/zlib123/deflate.o $(CFLAGS)
+
+../libs/physfs/zlib123/gzio.o: ../libs/physfs/zlib123/gzio.c
+	$(CC) -c ../libs/physfs/zlib123/gzio.c -o ../libs/physfs/zlib123/gzio.o $(CFLAGS)
+
+../libs/physfs/zlib123/infback.o: ../libs/physfs/zlib123/infback.c
+	$(CC) -c ../libs/physfs/zlib123/infback.c -o ../libs/physfs/zlib123/infback.o $(CFLAGS)
+
+../libs/physfs/zlib123/inffast.o: ../libs/physfs/zlib123/inffast.c
+	$(CC) -c ../libs/physfs/zlib123/inffast.c -o ../libs/physfs/zlib123/inffast.o $(CFLAGS)
+
+../libs/physfs/zlib123/inflate.o: ../libs/physfs/zlib123/inflate.c
+	$(CC) -c ../libs/physfs/zlib123/inflate.c -o ../libs/physfs/zlib123/inflate.o $(CFLAGS)
+
+../libs/physfs/zlib123/inftrees.o: ../libs/physfs/zlib123/inftrees.c
+	$(CC) -c ../libs/physfs/zlib123/inftrees.c -o ../libs/physfs/zlib123/inftrees.o $(CFLAGS)
+
+../libs/physfs/zlib123/trees.o: ../libs/physfs/zlib123/trees.c
+	$(CC) -c ../libs/physfs/zlib123/trees.c -o ../libs/physfs/zlib123/trees.o $(CFLAGS)
+
+../libs/physfs/zlib123/uncompr.o: ../libs/physfs/zlib123/uncompr.c
+	$(CC) -c ../libs/physfs/zlib123/uncompr.c -o ../libs/physfs/zlib123/uncompr.o $(CFLAGS)
+
+../libs/physfs/zlib123/zutil.o: ../libs/physfs/zlib123/zutil.c
+	$(CC) -c ../libs/physfs/zlib123/zutil.c -o ../libs/physfs/zlib123/zutil.o $(CFLAGS)
+
+../libs/physfs/physfs.o: ../libs/physfs/physfs.c
+	$(CC) -c ../libs/physfs/physfs.c -o ../libs/physfs/physfs.o $(CFLAGS)
+
+../libs/physfs/physfs_byteorder.o: ../libs/physfs/physfs_byteorder.c
+	$(CC) -c ../libs/physfs/physfs_byteorder.c -o ../libs/physfs/physfs_byteorder.o $(CFLAGS)
+
+../libs/tinyxml/tinystr.o: ../libs/tinyxml/tinystr.cpp
+	$(CPP) -c ../libs/tinyxml/tinystr.cpp -o ../libs/tinyxml/tinystr.o $(CXXFLAGS)
+
+../libs/tinyxml/tinyxml.o: ../libs/tinyxml/tinyxml.cpp
+	$(CPP) -c ../libs/tinyxml/tinyxml.cpp -o ../libs/tinyxml/tinyxml.o $(CXXFLAGS)
+
+../libs/tinyxml/tinyxmlerror.o: ../libs/tinyxml/tinyxmlerror.cpp
+	$(CPP) -c ../libs/tinyxml/tinyxmlerror.cpp -o ../libs/tinyxml/tinyxmlerror.o $(CXXFLAGS)
+
+../libs/tinyxml/tinyxmlparser.o: ../libs/tinyxml/tinyxmlparser.cpp
+	$(CPP) -c ../libs/tinyxml/tinyxmlparser.cpp -o ../libs/tinyxml/tinyxmlparser.o $(CXXFLAGS)
+
+../libs/physfs/platform/win32.o: ../libs/physfs/platform/win32.c
+	$(CC) -c ../libs/physfs/platform/win32.c -o ../libs/physfs/platform/win32.o $(CFLAGS)
+
+MindBender_private.res: MindBender_private.rc 
+	$(WINDRES) -i MindBender_private.rc --input-format=rc -o MindBender_private.res -O coff 

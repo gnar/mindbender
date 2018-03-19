@@ -1,0 +1,14 @@
+mindbender
+MindBender.exe
+game.xml
+game.scn
+script
+res
+stdout.txt
+stderr.txt
+stdlog.txt
+quicksave
+savegame.*
+*.swp
+libfmodex.so.4.02.10
+libfmodex.so

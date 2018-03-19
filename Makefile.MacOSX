@@ -1,0 +1,24 @@
+
+include Makefile.common
+
+CPPFLAGS  = -DDEBUG -O3 -g -Wall -I. -Ilibs -DDCDRAW_USE_OPENGL `sdl-config --cflags` 
+CPPFLAGS += -I/System/Library/Frameworks/OpenGL.framework/Headers 
+CPPFLAGS += -I/Library/Frameworks/SDL.framework/Headers 
+CPPFLAGS += -I/Library/Frameworks/libpng.framework/Headers 
+
+LFLAGS  = -lpng -lz `sdl-config --libs` -lGL -lGLU 
+LFLAGS += -framework SDL -framework Cocoa -framework OpenGL -framework IOKit 
+LFLAGS += -L/System/Library/Frameworks/OpenGL.framework/Libraries -L/Library/Frameworks/libpng.framework 
+
+STATIC_LIBS = libs/physfs/.libs/libphysfs.a libs/cl2/bin/cl2.a libs/dcdraw/dcdraw_opengl.a
+
+all: $(OBJS)
+	g++ $(LFLAGS) $(OBJS) $(STATIC_LIBS) -o $(EXE)
+
+clean:
+	-rm $(OBJS)
+	-rm $(EXE)
+
+%.o : %.cpp
+	g++ -c $(CPPFLAGS) $< -o $@
+

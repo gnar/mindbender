@@ -1,0 +1,20 @@
+OBJS += opengl/texture.o
+OBJS += opengl/opengl_drv.o
+OBJS += canvas.o
+OBJS += canvas_png.o
+OBJS += dcdraw.o
+
+SRC = $(OBJS:.o=.cpp)
+
+CFLAGS = -O2 -DDCDRAW_USE_OPENGL
+
+lib: $(OBJS) 
+	ar rcs dcdraw_opengl.a $(OBJS)
+
+clean:
+	-rm $(OBJS) 
+	-rm dcdraw_opengl.a
+
+%.o: %.cpp
+	g++ $(CFLAGS) -c $< -o $@
+
