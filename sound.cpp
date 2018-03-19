@@ -3,14 +3,15 @@
 #include <stdio.h>
 
 #include <physfs/physfs.h>
-#include <fmod.h>
-#include <fmod_errors.h>
+//#include <fmod.h>
+//#include <fmod_errors.h>
 
 #include <resource/manager.h>
 
 #include <iostream>
 using namespace std;
 
+/*
 FMOD_RESULT F_CALLBACK fmod_open(
 	const char *name, int unicode, unsigned int *filesize,
 	void **handle, void **userdata)
@@ -65,7 +66,7 @@ FMOD_RESULT F_CALLBACK fmod_read(
 	}
 
 }
-
+*/
 static FMOD_SYSTEM *fsystem = 0;
 
 FMOD_SYSTEM *SoundSystem()
@@ -85,6 +86,7 @@ void InitSound(int freq)
 
 	::fsystem = 0;
 
+	/*
 	FMOD_RESULT result = FMOD_System_Create(&::fsystem);
 	if (result != FMOD_OK)
 	{
@@ -103,13 +105,14 @@ void InitSound(int freq)
 	
 	// Glue FMOD to PhysFS
 	FMOD_System_SetFileSystem(::fsystem, &fmod_open, &fmod_close, &fmod_read, &fmod_seek, 2048);
+	*/
 }
 
 void DoneSound()
 {
 	if (::fsystem != 0)
 	{
- 		FMOD_System_Release(::fsystem);
+ 		//FMOD_System_Release(::fsystem);
 		::fsystem = 0;
 	}
 }

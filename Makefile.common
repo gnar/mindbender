@@ -1,5 +1,5 @@
 
-SRC += main.cpp video.cpp sound.cpp
+SRC += main.cpp video.cpp 
 SRC += game.cpp 
 SRC += configuration.cpp
 SRC += events.cpp
@@ -22,6 +22,7 @@ SRC += scene/sceneparser.cpp scene/gameloader.cpp
 SRC += saveload.cpp
 
 SRC += libs/tinyxml/tinystr.cpp libs/tinyxml/tinyxml.cpp libs/tinyxml/tinyxmlerror.cpp libs/tinyxml/tinyxmlparser.cpp
+SRC += sound.cpp
 
 OBJS = $(SRC:.cpp=.o)
 
