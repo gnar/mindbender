@@ -12,3 +12,5 @@ savegame.*
 *.swp
 libfmodex.so.4.02.10
 libfmodex.so
+*.o
+*.a
