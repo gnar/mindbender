@@ -1,5 +1,7 @@
 #include "texture.h"
 
+#include <cstring>
+
 namespace DCDraw_OpenGL
 {
 	using namespace DCDraw;

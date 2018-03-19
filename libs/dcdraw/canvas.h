@@ -39,7 +39,7 @@ namespace DCDraw
 		Canvas();
 		Canvas(Format fmt, int width, int height);
 		Canvas(Format fmt, unsigned char *data, int width, int height, int pitch = -1);
-		Canvas::~Canvas();
+		~Canvas();
 
 		Canvas Clone();
 		Canvas Convert(Format fmt);
