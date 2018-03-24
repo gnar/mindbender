@@ -28,29 +28,27 @@
 
 #define GET_TIMER(v)           ((Timer*)(v).value.object)
 
-class Timer : public TableObject
-{
+class Timer : public TableObject {
 public:
-	// CONSTRUCTION/DESTRUCTION //////////////////////////////////////
-	Timer(CLContext *context);
-	virtual ~Timer();
+    // CONSTRUCTION/DESTRUCTION //////////////////////////////////////
+    explicit Timer(CLContext *context);
+    ~Timer() override;
 
-	void Update(float dt);
+    void Update(float dt);
 
-	// SAVE & LOAD STATE /////////////////////////////////////////////
-	static void Save(CLSerialSaver &S, Timer *timer);
-	static Timer *Load(CLSerialLoader &S);
+    // SAVE & LOAD STATE /////////////////////////////////////////////
+    static void Save(CLSerialSaver &S, Timer *timer);
+    static Timer *Load(CLSerialLoader &S);
 
 private:
-	// CLObject //////////////////////////////////////////////////////
-	void markReferenced(); // GC
-	void set(CLValue &key, CLValue &val);
-	bool get(CLValue &key, CLValue &val);
+    // CLObject //////////////////////////////////////////////////////
+    void markReferenced() override; // GC
+    void set(CLValue &key, CLValue &val) override;
+    bool get(CLValue &key, CLValue &val) override;
 
-	// PRIVATES //////////////////////////////////////////////////////
+    // PRIVATES //////////////////////////////////////////////////////
 private:
-	float time;
+    float time;
 };
 
 #endif
-

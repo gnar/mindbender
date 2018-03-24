@@ -32,32 +32,31 @@
 
 #include <iostream>
 
-class SceneLoader : private SceneParser
-{
+class SceneLoader : private SceneParser {
 public:
-	SceneLoader(CLContext *context, const std::string &fn);
-	~SceneLoader();
+    SceneLoader(CLContext *context, const std::string &fn);
+    ~SceneLoader() override;
 
-	void Parse(); //run
-	void RunAttachedScripts();
+    void Parse(); //run
+    void RunAttachedScripts();
 
 private:
-	CLContext *context;
-	
-	CLValue ParseRoom();
-	void ParsePlane(Room *room, Room::PlaneID pid);
-	CLValue ParseItem();
-	CLValue ParseBagItem();
-	CLValue ParseSprite();
-	CLValue ParseShape();
+    CLContext *context;
 
-	void ParseRoomProperty(const std::string id, class Room *room);
-	void ParsePlaneProperty(const std::string id, class Room *room, Room::PlaneID pid);
-	void ParseItemProperty(const std::string id, class Item *item);
-	void ParseBagItemProperty(const std::string id, class BagItem *bagitem);
-	void ParseSetSlot(const std::string id, CLObject *obj);
+    CLValue ParseRoom();
+    void ParsePlane(Room *room, Room::PlaneID pid);
+    CLValue ParseItem();
+    CLValue ParseBagItem();
+    CLValue ParseSprite();
+    CLValue ParseShape();
 
-	std::list<std::string> scripts;
+    void ParseRoomProperty(const std::string id, class Room *room);
+    void ParsePlaneProperty(const std::string id, class Room *room, Room::PlaneID pid);
+    void ParseItemProperty(const std::string id, class Item *item);
+    void ParseBagItemProperty(const std::string id, class BagItem *bagitem);
+    void ParseSetSlot(const std::string id, CLObject *obj);
+
+    std::list<std::string> scripts;
 };
 
 #endif

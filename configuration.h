@@ -25,12 +25,10 @@
 #include <string>
 #include <vector>
 
-class Configuration
-{
+class Configuration {
 public:
-	Configuration();
+    Configuration();
 
-	// RETRIEVE CONFIGURATION //////////////////////////////////
 	const std::vector<std::string> &GetSources() { return sources; }
 
 	const std::string &GetTitle() { return title; }
@@ -41,25 +39,23 @@ public:
 	int  GetVideoWidth() { return video.width; }
 	bool GetFullscreen() { return video.fullscreen; }
 
-	// PARSE CONFIG FILE ///////////////////////////////////////
-	void Parse(const std::string &file);
-	bool Error() { return err; }
-	const std::string &ErrorString() { return error_string; }
+    void Parse(const std::string &file);
+    bool Error() { return err; }
+
+    const std::string &ErrorString() { return error_string; }
 
 private:
-	struct 
-	{
-		int width, height;
-		bool fullscreen;
-	} video;
+    struct {
+        int width, height;
+        bool fullscreen;
+    } video;
 
-	std::string title;
-	std::string scene_file;
-	std::vector<std::string> sources;
+    std::string title;
+    std::string scene_file;
+    std::vector<std::string> sources;
 
-	bool err;
-	std::string error_string;
+    bool err;
+    std::string error_string;
 };
 
 #endif
-

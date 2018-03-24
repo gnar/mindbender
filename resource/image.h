@@ -25,25 +25,22 @@
 #include <memory>
 #include "dcdraw/dcdraw.h"
 
-namespace Res
-{
-	class Image : public Resource
-	{
-		std::unique_ptr<DCDraw::Texture> texture;
+namespace Res {
+    class Image : public Resource {
+        std::unique_ptr<DCDraw::Texture> texture;
 
-	public:
-		Image(const Resource::ID &id);
-		virtual ~Image();
+    public:
+        explicit Image(const Resource::ID &id);
+        ~Image() override;
 
-		DCDraw::Texture *GetTexture() { return texture.get(); }
+        DCDraw::Texture *GetTexture() { return texture.get(); }
 
-	private:
-		virtual void Load();
-		virtual void Unload();
+    private:
+        void Load() override;
+        void Unload() override;
+    };
 
-	};
-
-	Image *CreateImageResource(const Resource::ID &id);
+    Image *CreateImageResource(const Resource::ID &id);
 }
 
 #endif

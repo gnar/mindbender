@@ -20,27 +20,23 @@
 #include "object/timer.h"
 #include "game.h"
 
-#include <iostream>
 using namespace std;
 
 //////////////////////////////////////////////////////////////////
 // CONSTRUCTION/DESTRUCTION                                     //
 //////////////////////////////////////////////////////////////////
-Timer::Timer(CLContext *context) 
-	: TableObject(context),
-	  time(0)
-{
-	Game().GetTimerManager().AddTimer(CLValue(this));
+Timer::Timer(CLContext *context)
+        : TableObject(context),
+          time(0) {
+    Game().GetTimerManager().AddTimer(CLValue(this));
 }
 
-Timer::~Timer()
-{
-	Game().GetTimerManager().DelTimer(CLValue(this));
+Timer::~Timer() {
+    Game().GetTimerManager().DelTimer(CLValue(this));
 }
 
-void Timer::Update(float dt)
-{
-	time += dt;
+void Timer::Update(float dt) {
+    time += dt;
 }
 
 //////////////////////////////////////////////////////////////////
@@ -49,59 +45,56 @@ void Timer::Update(float dt)
 
 void Timer::markReferenced() // GC
 {
-	TableObject::markReferenced();
+    TableObject::markReferenced();
 }
 
-void Timer::set(CLValue &key, CLValue &val)
-{
-	if (key.type == CL_STRING)
-	{
-		const std::string k = GET_STRING(key)->get();
-		if (k == "time") {
-			this->time = val.toFloat(); return;
-		}
-	}
+void Timer::set(CLValue &key, CLValue &val) {
+    if (key.type == CL_STRING) {
+        const std::string k = GET_STRING(key)->get();
+        if (k == "time") {
+            this->time = val.toFloat();
+            return;
+        }
+    }
 
-	TableObject::set(key, val);
+    TableObject::set(key, val);
 }
 
-bool Timer::get(CLValue &key, CLValue &val)
-{
-	if (key.type == CL_STRING)
-	{
-		const std::string k = GET_STRING(key)->get();
-		if (k == "time") {
-			val = CLValue(int(this->time)); return true;
-		}
-	}
+bool Timer::get(CLValue &key, CLValue &val) {
+    if (key.type == CL_STRING) {
+        const std::string k = GET_STRING(key)->get();
+        if (k == "time") {
+            val = CLValue(int(this->time));
+            return true;
+        }
+    }
 
-	return TableObject::get(key, val);
+    return TableObject::get(key, val);
 }
 
 //////////////////////////////////////////////////////////////////
 // SAVE & LOAD STATE                                            //
 //////////////////////////////////////////////////////////////////
 
-void Timer::Save(CLSerialSaver &S, Timer *timer)
-{
-	// save time
-	S.IO(timer->time);
+void Timer::Save(CLSerialSaver &S, Timer *timer) {
+    // save time
+    S.IO(timer->time);
 
-	// save tableobject data
-	TableObject::Save(S, timer);
+    // save tableobject data
+    TableObject::Save(S, timer);
 }
 
-Timer *Timer::Load(CLSerialLoader &S)
-{
-	Timer *timer = new Timer(S.getContext()); S.addPtr(timer);
+Timer *Timer::Load(CLSerialLoader &S) {
+    auto *timer = new Timer(S.getContext());
+    S.addPtr(timer);
 
-	// load time
-	S.IO(timer->time);
+    // load time
+    S.IO(timer->time);
 
-	// load tableobject data
-	TableObject::Load(S, timer);
+    // load tableobject data
+    TableObject::Load(S, timer);
 
-	return timer;
+    return timer;
 }
 
 

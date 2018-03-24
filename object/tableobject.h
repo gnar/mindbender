@@ -23,23 +23,22 @@
 #include "cl2/cl2.h"
 
 // Adds Table functionality to a CLUserData
-class TableObject : public CLUserData
-{
+class TableObject : public CLUserData {
 public:
-	TableObject(CLContext *context); 
-	virtual ~TableObject();
+    explicit TableObject(CLContext *context);
+    ~TableObject() override;
 
-	virtual void set(CLValue &key, CLValue &val);
-	virtual bool get(CLValue &key, CLValue &val); // returns true if key existed
-	virtual void markReferenced();
+    void set(CLValue &key, CLValue &val) override;
+    bool get(CLValue &key, CLValue &val) override; // returns true if key existed
+    void markReferenced() override;
 
 protected:
-	// SAVE & LOAD STATE /////////////////////////////////////////////
-	static void Save(CLSerialSaver &S, TableObject *tobj);
-	static void Load(CLSerialLoader &S, TableObject *tobj);
+    // SAVE & LOAD STATE /////////////////////////////////////////////
+    static void Save(CLSerialSaver &S, TableObject *tobj);
+    static void Load(CLSerialLoader &S, TableObject *tobj);
 
 private:
-	CLValue table;
+    CLValue table;
 };
 
 #endif

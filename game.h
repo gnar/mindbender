@@ -32,66 +32,67 @@
 
 class Game_ &Game(); // singleton instance getter
 
-class Game_
-{
+class Game_ {
 public:
-	// CONSTRUCTOR/DESTRUCTOR //////////////////////////////////
-	Game_();
-	~Game_();
+    // CONSTRUCTOR/DESTRUCTOR //////////////////////////////////
+    Game_();
+    ~Game_();
 
-	void ShutDown(); // must be called before program quits and ClanLib is deinitialized
+    void ShutDown(); // must be called before program quits and ClanLib is deinitialized
 
-	// GLOBAL GAME STATE CONTROL ///////////////////////////////
-	bool IsLoaded() { return loaded; } 
-	void Start(); // State a new game
-	void Stop(); // Kill game
+    // GLOBAL GAME STATE CONTROL ///////////////////////////////
+    bool IsLoaded() { return loaded; }
 
-	// SAVE & LOAD STATES FROM DISK ////////////////////////////
-	// (implemented in saveload.cpp)
-	void Save(const std::string &filename);
-	void Load(const std::string &filename);
+    void Start(); // State a new game
+    void Stop(); // Kill game
 
-	// FRAME COUNTER, FPS, TIMER ///////////////////////////////
-	long GetTime(); // get time in milliseconds
-	unsigned long GetFrameCount(); // return number of frames since game start
-	
-	// UPDATE/DRAW FRAMES //////////////////////////////////////
-	void Mainloop(); // Update & Draw
+    // SAVE & LOAD STATES FROM DISK ////////////////////////////
+    // (implemented in saveload.cpp)
+    void Save(const std::string &filename);
 
-	// LISTENER FOR UI-EVENTS //////////////////////////////////
-	void OnButtonDown(const std::string &key_name, int key_ascii);
-	void OnMouseDown(int x, int y, int btn);
-	void OnMouseMove(int x, int y);
+    void Load(const std::string &filename);
 
-	// SCRIPTING HELPER FUNCTIONS //////////////////////////////
-	CLValue ExecuteScript(const std::string &file); // execute script by name, without threading
-	void GarbageCollect(); // perform garbage collection
+    // FRAME COUNTER, FPS, TIMER ///////////////////////////////
+    long GetTime(); // get time in milliseconds
+    unsigned long GetFrameCount(); // return number of frames since game start
 
-	// EVENT MANAGER ///////////////////////////////////////////
-	EventManager &GetEventManager() { return event_manager; }
+    // UPDATE/DRAW FRAMES //////////////////////////////////////
+    void Mainloop(); // Update & Draw
 
-	// TIMER MANAGER ///////////////////////////////////////////
-	TimerManager &GetTimerManager() { return timer_manager; }
+    // LISTENER FOR UI-EVENTS //////////////////////////////////
+    void OnButtonDown(const std::string &key_name, int key_ascii);
+    void OnMouseDown(int x, int y, int btn);
+    void OnMouseMove(int x, int y);
 
-	// CAMERA //////////////////////////////////////////////////
-	Camera &GetCamera() { return camera; }
+    // SCRIPTING HELPER FUNCTIONS //////////////////////////////
+    CLValue ExecuteScript(const std::string &file); // execute script by name, without threading
+    void GarbageCollect(); // perform garbage collection
 
-	// MEMBER VARIALBES ////////////////////////////////////////
+    // EVENT MANAGER ///////////////////////////////////////////
+    EventManager &GetEventManager() { return event_manager; }
+
+    // TIMER MANAGER ///////////////////////////////////////////
+    TimerManager &GetTimerManager() { return timer_manager; }
+
+    // CAMERA //////////////////////////////////////////////////
+    Camera &GetCamera() { return camera; }
+
+    // MEMBER VARIALBES ////////////////////////////////////////
 private:
-	bool loaded; // is a game active?
+    bool loaded; // is a game active?
 
-	// frame counter, fps
-	unsigned long last_time;
-	unsigned long frame_count;
+    // frame counter, fps
+    unsigned long last_time;
+    unsigned long frame_count;
 
-	Camera camera;              // camera
-	EventManager event_manager; // event manager
-	TimerManager timer_manager; // timer manager
+    Camera camera;              // camera
+    EventManager event_manager; // event manager
+    TimerManager timer_manager; // timer manager
 
-	// script engine context
-	CLContext context;
-	CLMathModule math_module; // math module
-	SushiModule sushi_module; // bindings
+    // script engine context
+    CLContext context;
+    CLMathModule math_module; // math module
+    SushiModule sushi_module; // bindings
 };
 
 #endif

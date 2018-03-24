@@ -27,135 +27,132 @@
 
 #define GET_ACTOR(v)           ((Actor*)(v).value.object)
 
-class Actor : public RoomObject
-{
+class Actor : public RoomObject {
 public:
-	// Constructor/Destructor //////////////////////////////////////////
-	Actor(CLContext *context);
-	virtual ~Actor();
+    // Constructor/Destructor //////////////////////////////////////////
+    explicit Actor(CLContext *context);
+    ~Actor() override;
 
-	// Update/Draw actor ///////////////////////////////////////////////
-	void Update(float dt);
-	void Draw();
-	void DebugDraw();
-	void DrawText();
+    // Update/Draw actor ///////////////////////////////////////////////
+    void Update(float dt) override;
+    void Draw() override;
+    void DebugDraw() override;
+    void DrawText();
+    void Stop(); // stop all actions
 
-	void Stop(); // stop all actions
+    // Talking interface ///////////////////////////////////////////////
+    void Talk(const std::string &text);
+    void TalkAppend(const std::string &text);
+    bool IsTalking() { return state == TALKING; }
 
-	// Talking interface ///////////////////////////////////////////////
-	void Talk(const std::string &text);
-	void TalkAppend(const std::string &text);
-	bool IsTalking() { return state == TALKING; }
+    // Walking interface ///////////////////////////////////////////////
+    bool WalkTo(int x, int y);
+    bool IsWalking() { return state == WALKING; }
 
-	// Walking interface ///////////////////////////////////////////////
-	bool WalkTo(int x, int y);
-	bool IsWalking() { return state == WALKING; }
+    // Special animation interface /////////////////////////////////////
+    void Perform(CLValue sprite);
+    bool IsSpecialAction() { return state == SPECIAL; }
 
-	// Special animation interface /////////////////////////////////////
-	void Perform(CLValue sprite);
-	bool IsSpecialAction() { return state == SPECIAL; }
+    // Get info ////////////////////////////////////////////////////////
+    int GetWidth() { return width; }
+    int GetHeight() { return height; }
 
-	// Get info ////////////////////////////////////////////////////////
-	int GetWidth() { return width; }
-	int GetHeight() { return height; }
-
-	// SAVE & LOAD STATE //////////////////////////////////////////////
-	static void Save(CLSerialSaver &S, Actor *bagitem);
-	static Actor *Load(CLSerialLoader &S);
+    // SAVE & LOAD STATE //////////////////////////////////////////////
+    static void Save(CLSerialSaver &S, Actor *bagitem);
+    static Actor *Load(CLSerialLoader &S);
 
 private:
-	// ACTOR STATE HANDLING ////////////////////////////////////////////
-	enum State
-	{
-		STILL,   // actor stands
-		WALKING, // actor walks
-		TALKING, // actor talks
-	//	TURNING, // actor turns
-		SPECIAL, // perform special animation, then stand
-	};
-	State state; // actor state (STILL)
+    // ACTOR STATE HANDLING ////////////////////////////////////////////
+    enum State {
+        STILL,   // actor stands
+        WALKING, // actor walks
+        TALKING, // actor talks
+        //	TURNING, // actor turns
+        SPECIAL, // perform special animation, then stand
+    };
+    State state; // actor state (STILL)
 
-	// main properties
-	int    dir;             // 0-359, 270=facing player, 90=into screen, 0=left, 180=right, clock-wise on ground
-	int    width, height;   // dimensions of actor, used for camera positioning and talk-text position
-	int    speed;           // walk speed in Pixels/second
-	float  scale;
-	bool   no_auto_scale;   // disable automatic actor scaling in rooms
-	CLValue font;           // font to use for talk-text display
-	CLValue path_override;  // override path
+    // main properties
+    int dir;             // 0-359, 270=facing player, 90=into screen, 0=left, 180=right, clock-wise on ground
+    int width, height;   // dimensions of actor, used for camera positioning and talk-text position
+    int speed;           // walk speed in Pixels/second
+    float scale;
+    bool no_auto_scale;   // disable automatic actor scaling in rooms
+    CLValue font;           // font to use for talk-text display
+    CLValue path_override;  // override path
 
-	// methods
-	CLValue method_walkto;                  // ego.WalkTo(x, y)
-	CLValue method_iswalking;		// ego.IsWalking()
-	CLValue method_talk;			// ego.Talk(text)
-	CLValue method_append_talk;             // ego.AppendTalk(text)
-	CLValue method_istalking;		// ego.IsTalking()
-	CLValue method_perform;			// ego.Perform(sprite)
-	CLValue method_stop;			// ego.Stop()
-	
-	// events
-	CLValue on_draw;                        // function()
-	void CallEventDraw();
+    // methods
+    CLValue method_walkto;                  // ego.WalkTo(x, y)
+    CLValue method_iswalking;        // ego.IsWalking()
+    CLValue method_talk;            // ego.Talk(text)
+    CLValue method_append_talk;             // ego.AppendTalk(text)
+    CLValue method_istalking;        // ego.IsTalking()
+    CLValue method_perform;            // ego.Perform(sprite)
+    CLValue method_stop;            // ego.Stop()
 
-	// Talking /////////////////////////////////////////////////////////
-	void Talk_Update(float dt);
-	void Talk_Stop();
-	void Talk_Clear(); // clear text queue
-	void Talk_AppendText(const std::string &text); // append text to queue
-	void Talk_AppendDelay(float ms); // append delay to queue
+    // events
+    CLValue on_draw;                        // function()
+    void CallEventDraw();
 
-	// insert texts/delays using meta-tags
-	void Talk_Parse(const std::string &text);
+    // Talking /////////////////////////////////////////////////////////
+    void Talk_Update(float dt);
+    void Talk_Stop();
+    void Talk_Clear(); // clear text queue
+    void Talk_AppendText(const std::string &text); // append text to queue
+    void Talk_AppendDelay(float ms); // append delay to queue
 
-	struct TalkItem
-	{
-		TalkItem() {}
-		TalkItem(float delay) : type(DELAY), delay(delay) {}
-		TalkItem(const std::string &text) : type(TEXT), text(text) {}
-		~TalkItem() {}
+    // insert texts/delays using meta-tags
+    void Talk_Parse(const std::string &text);
 
-		enum Type { TEXT, DELAY } type;
-		std::string text;
-		float delay;
-	};
+    struct TalkItem {
+        TalkItem() = default;
+        explicit TalkItem(float delay) : type(DELAY), delay(delay) {}
+        explicit TalkItem(const std::string &text) : type(TEXT), text(text) {}
+        ~TalkItem() = default;
 
-	// talk parameters
-	int                  Talk_x, Talk_y;
-	std::string          Talk_text; // current spoken text
-	std::queue<TalkItem> Talk_queue;
+        enum Type {
+            TEXT, DELAY
+        } type;
+        std::string text;
+        float delay{};
+    };
 
-	// Walking //////////////////////////////////////////////////////////
-	void Walk_WalkTo(int X, int Y);
-	void Walk_Stop();
-	void Walk_Update(float dt);
+    // talk parameters
+    int Talk_x, Talk_y;
+    std::string Talk_text; // current spoken text
+    std::queue<TalkItem> Talk_queue;
 
-	void Rescale();
+    void Walk_Stop();
+    void Walk_Update(float dt);
 
-	// walk parameters
-	int                Walk_dest_x, Walk_dest_y;   // current walking destination
-	std::list<Vertex>  Walk_route;                 // current (remaining) walking route
-	Vertex             Walk_segm1, Walk_segm2;     // current walking route segment, popped from 'Walk_route' list
-	int                Walk_segm_len;              // length of current walking segment in pixels
-	float              Walk_progress;              // length of completed current route segment (in pixels)
+    void Rescale();
 
-	// Special animation ////////////////////////////////////////////////
-	void Special_Stop();
-	void Special_Update(float dt);
+    // walk parameters
+    int Walk_dest_x, Walk_dest_y;   // current walking destination
+    std::list<Vertex> Walk_route;                 // current (remaining) walking route
+    Vertex Walk_segm1, Walk_segm2;     // current walking route segment, popped from 'Walk_route' list
+    int Walk_segm_len;              // length of current walking segment in pixels
+    float Walk_progress;              // length of completed current route segment (in pixels)
 
-	// Graphics /////////////////////////////////////////////////////////
-	CLValue sprite_still;
-	CLValue sprite_walking;
-	CLValue sprite_talking;
-	CLValue sprite_special;
+    // Special animation ////////////////////////////////////////////////
+    void Special_Stop();
+    void Special_Update(float dt);
 
-	// select most fitting track for the current direction
-	void SelectTrack(CLValue sprite);
+    // Graphics /////////////////////////////////////////////////////////
+    CLValue sprite_still;
+    CLValue sprite_walking;
+    CLValue sprite_talking;
+    CLValue sprite_special;
 
-	// CLObject ////////////////////////////////////////////////////////
-	void markReferenced();
-	void set(CLValue &key, CLValue &val);
-	bool get(CLValue &key, CLValue &val);
-	std::string toString();
+    // select most fitting track for the current direction
+    void SelectTrack(CLValue sprite);
+
+    // CLObject ////////////////////////////////////////////////////////
+    void markReferenced() override;
+    void set(CLValue &key, CLValue &val) override;
+    bool get(CLValue &key, CLValue &val) override;
+
+    std::string toString() override;
 };
 
 #endif

@@ -24,51 +24,45 @@
 #include <vector>
 
 #include "resource.h"
+#include "physfs.h"
 
-#include "physfs/physfs.h"
 #include <SDL/SDL.h>
 
-namespace Res
-{
-	class Image;
-	class Sprite;
-	class Polygon;
-	class Font;
-	class Sound;
+namespace Res {
+    class Image;
+    class Sprite;
+    class Polygon;
+    class Font;
+    class Sound;
 
-	class Manager_
-	{
-	public:
-		void ShutDown();
-		
-		void AddSource(const std::string &path);
+    class Manager_ {
+    public:
+        void ShutDown();
 
-		Resource *Get(Resource::Type type, const Resource::ID &id);
+        void AddSource(const std::string &path);
 
-		Image     *GetImage(const Resource::ID &id) { return (Image*)  Get(Resource::IMAGE,   id); }
-		Sprite   *GetSprite(const Resource::ID &id) { return (Sprite*) Get(Resource::SPRITE,  id); }
-		Polygon *GetPolygon(const Resource::ID &id) { return (Polygon*)Get(Resource::POLYGON, id); }
-		Font       *GetFont(const Resource::ID &id) { return (Font*)   Get(Resource::FONT,    id); }
-		Sound     *GetSound(const Resource::ID &id) { return (Sound*)  Get(Resource::SOUND,   id); }
+        Resource *Get(Resource::Type type, const Resource::ID &id);
 
-		// return a physfs file which reads from resource 'id'
-		PHYSFS_file  *OpenFile(const std::string &id);
-		bool        ExistsFile(const std::string &id);
+        Image *GetImage(const Resource::ID &id) { return (Image *) Get(Resource::IMAGE, id); }
+        Sprite *GetSprite(const Resource::ID &id) { return (Sprite *) Get(Resource::SPRITE, id); }
+        Polygon *GetPolygon(const Resource::ID &id) { return (Polygon *) Get(Resource::POLYGON, id); }
+        Font *GetFont(const Resource::ID &id) { return (Font *) Get(Resource::FONT, id); }
+        Sound *GetSound(const Resource::ID &id) { return (Sound *) Get(Resource::SOUND, id); }
 
-	private:
-		Resource *Find(Resource::Type type, const Resource::ID &id);
+        // return a physfs file which reads from resource 'id'
+        PHYSFS_File *OpenFile(const std::string &id);
+        bool ExistsFile(const std::string &id);
 
-		std::vector<Resource*> resources;
-	};
+    private:
+        Resource *Find(Resource::Type type, const Resource::ID &id);
+        std::vector<Resource *> resources;
+    };
 
-	extern Manager_ Manager;
+    extern Manager_ Manager;
 
-	std::string GetFileExtension(const std::string &path);
-	std::string SimplifyPath(const std::string &path);
-	std::string StringToLower(const std::string &str);
-
-	// SDL_image over physfs glue code (SDL_RWops)
-	SDL_RWops *CreatePhysfsRWops(PHYSFS_file *handle);
+    std::string GetFileExtension(const std::string &path);
+    std::string SimplifyPath(const std::string &path);
+    std::string StringToLower(const std::string &str);
 }
 
 #endif

@@ -662,9 +662,4 @@ std::list<Vertex> PolygonPath::findPath(int startX, int startY, int goalX, int g
 
 no_path:
 	return std::list<Vertex>();
-
-
 }
-
-
-

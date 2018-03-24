@@ -22,6 +22,7 @@
 
 bool InitVideo(int width, int height, bool fullscreen, bool show_info = false);
 void DoneVideo();
+
 void BeginFrame();
 void EndFrame();
 

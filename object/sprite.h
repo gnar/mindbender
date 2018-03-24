@@ -31,55 +31,56 @@
 
 #define GET_SPRITE(v)           ((Sprite*)(v).value.object)
 
-class Sprite : public TableObject
-{
+class Sprite : public TableObject {
 public:
-	// CONSTRUCTION/DESTRUCTION //////////////////////////////////////
-	Sprite(CLContext *context, const Res::Resource::ID &res);
-	virtual ~Sprite();
+    // CONSTRUCTION/DESTRUCTION //////////////////////////////////////
+    Sprite(CLContext *context, const Res::Resource::ID &res);
+    ~Sprite() override;
 
-	// DRAW SPRITE ///////////////////////////////////////////////////
-	void Draw(int x, int y);
-	void Draw();
-	void Update();
+    // DRAW SPRITE ///////////////////////////////////////////////////
+    void Draw(int x, int y);
+    void Draw();
+    void Update();
+    void Rewind();
 
-	void Rewind();
-	bool IsFinished(); // is animation finished?
+    bool IsFinished(); // is animation finished?
 
-	void SetTrack(const std::string &track_id);
-	bool HasTrack(const std::string &track_id);
+    void SetTrack(const std::string &track_id);
+    bool HasTrack(const std::string &track_id);
 
-	void SetScaling(float s) { this->scale = s; }
-	float GetScaling() { return this->scale; }
+    void SetScaling(float s) { this->scale = s; }
+    float GetScaling() { return this->scale; }
 
-	void Translate(int x, int y) { this->trans_x = x; this->trans_y = y; }
+    void Translate(int x, int y) {
+        this->trans_x = x;
+        this->trans_y = y;
+    }
 
-	// SAVE & LOAD STATE /////////////////////////////////////////////
-	static void Save(CLSerialSaver &S, Sprite *sprite);
-	static Sprite *Load(CLSerialLoader &S);
+    // SAVE & LOAD STATE /////////////////////////////////////////////
+    static void Save(CLSerialSaver &S, Sprite *sprite);
+    static Sprite *Load(CLSerialLoader &S);
 
 private:
-	// CLObject //////////////////////////////////////////////////////
-	void set(CLValue &key, CLValue &val);
-	bool get(CLValue &key, CLValue &val);
-	void markReferenced(); //gc
+    // CLObject //////////////////////////////////////////////////////
+    void set(CLValue &key, CLValue &val) override;
+    bool get(CLValue &key, CLValue &val) override;
+    void markReferenced() override; //gc
 
-	// PRIVATE MEMBERS ///////////////////////////////////////////////
-	CLValue method_draw;
-	CLValue method_rewind;
-	CLValue method_is_finished;
-	CLValue method_translate;
+    // PRIVATE MEMBERS ///////////////////////////////////////////////
+    CLValue method_draw;
+    CLValue method_rewind;
+    CLValue method_is_finished;
+    CLValue method_translate;
 
-	unsigned long last_tick;
-	long last_time;
+    unsigned long last_tick;
+    long last_time;
 
-	int x, y; // current sprite position
-	float scale; // current sprite scaling
-	int trans_x, trans_y; 
+    int x, y; // current sprite position
+    float scale; // current sprite scaling
+    int trans_x, trans_y;
 
-	Res::Sprite *sprite_res; // the sprite resource to be used
-	Res::SpriteState *sprite_state; // the sprite state
+    Res::Sprite *sprite_res; // the sprite resource to be used
+    Res::SpriteState *sprite_state; // the sprite state
 };
 
 #endif
-

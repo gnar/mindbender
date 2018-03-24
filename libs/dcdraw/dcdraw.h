@@ -8,18 +8,21 @@
 #include "clip.h"
 #include "transform.h"
 
-namespace DCDraw
-{
-	void SetPathPrefix(const std::string &prefix);
-	const std::string &GetPathPrefix();
+namespace DCDraw {
+    void SetPathPrefix(const std::string &prefix);
+
+    const std::string &GetPathPrefix();
 }
 
+#define DCDRAW_USE_OPENGL
+
 #if defined(DCDRAW_USE_OPENGL)
+
 #include "opengl/opengl_drv.h"
 #include "opengl/texture.h"
-namespace DCDraw
-{
-	using namespace DCDraw_OpenGL; 
+
+namespace DCDraw {
+    using namespace DCDraw_OpenGL;
 }
 
 #define DCDRAW_BEGIN_TRANS() {}
@@ -29,7 +32,7 @@ namespace DCDraw
 #include "kos/texture.h"
 namespace DCDraw 
 { 
-	using namespace DCDraw_Kos;
+    using namespace DCDraw_Kos;
 }
 
 #define DCDRAW_BEGIN_TRANS() {DCDraw::PvrBeginTrans();}

@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
-from wxPython.wx import *
 from string import *
+from wxPython.wx import *
 
 wxInitAllImageHandlers()
 
@@ -11,191 +11,194 @@ ID_OPEN_IMAGE = 103
 ID_SAVE_XML = 104
 ID_LOAD_XML = 105
 
+
 class Polygon:
 
-  def __init__(self):
-    self.n = 3
-    self.v = [wxPoint(10, 10), wxPoint(100, 10), wxPoint(10, 100)]
-    self.select = 0
-    return
+    def __init__(self):
+        self.n = 3
+        self.v = [wxPoint(10, 10), wxPoint(100, 10), wxPoint(10, 100)]
+        self.select = 0
+        return
 
-  def NearestPoint(self, x, y):
-    best = -1
-    best_dist = 10000000
-    for i in range(self.n):
-      dx = x - self.v[i].x
-      dy = y - self.v[i].y
-      dist = dx*dx + dy*dy
-      if dist < best_dist or best == -1:
-        best = i
-        best_dist = dist
-    return best
+    def NearestPoint(self, x, y):
+        best = -1
+        best_dist = 10000000
+        for i in range(self.n):
+            dx = x - self.v[i].x
+            dy = y - self.v[i].y
+            dist = dx * dx + dy * dy
+            if dist < best_dist or best == -1:
+                best = i
+                best_dist = dist
+        return best
 
-  def Select(self, x, y):
-    self.select = self.NearestPoint(x, y)
-    return
+    def Select(self, x, y):
+        self.select = self.NearestPoint(x, y)
+        return
 
-  def MoveSelected(self, x, y):
-    self.v[self.select] = wxPoint(x, y)
-    return
+    def MoveSelected(self, x, y):
+        self.v[self.select] = wxPoint(x, y)
+        return
 
-  def InsertAfterSelected(self, x, y):
-    self.v[self.select:self.select] = [wxPoint(x, y)]
-    self.n += 1
-    return
-
-  def Paint(self, dc):
-    dc.BeginDrawing()
-
-    dc.SetBrush(wxBrush(wxBLUE, wxBDIAGONAL_HATCH))
-    dc.SetPen(wxPen(wxBLUE))
-    dc.DrawPolygon(self.v)
-
-    for i in range(self.n):
-      if self.select == i:
-        dc.SetPen(wxPen(wxWHITE))
-      else:
-        dc.SetPen(wxPen(wxBLUE))
-      dc.DrawRectangle(self.v[i].x-2, self.v[i].y-2, 5, 5)
-
-    l1 = self.v[self.select]
-    l2 = self.v[(self.select-1) % self.n]
-    dc.SetPen(wxPen(wxWHITE))
-    dc.DrawLine(l1.x, l1.y, l2.x, l2.y)
-
-    dc.EndDrawing()
-    return
-
-  def SaveToFile(self, filename):
-    f = open(filename, 'w')
-    f.write("<polygon>\n")
-    for i in range(self.n):
-      f.write("\t<vertex pos=" + str(self.v[i].x) + "," + str(self.v[i].y) + "/>\n")
-    f.write("</polygon>\n")
-    print "Polygon saved to " + filename
-    return
-
-  def LoadFromFile(self, filename):
-    f = open(filename, 'r')
-
-    self.n = 0
-    self.v = []
-    self.select = 0
-
-    done = false
-    while not done:
-      s = f.readline()
-      if find(s, "</polygon>") != -1: 
-        done = true
-      elif find(s, "<vertex") != -1:
-        x_pos = find(s, "pos=") + 4        
-	x_len = find(s, ",") - x_pos
-        y_pos = x_pos + x_len + 1
-        y_len = find(s, "/") - y_pos
-
-	x = int(s[x_pos:x_pos+x_len])
-        y = int(s[y_pos:y_pos+y_len])
-        
-        self.v[self.n:self.n] = [wxPoint(x, y)]
+    def InsertAfterSelected(self, x, y):
+        self.v[self.select:self.select] = [wxPoint(x, y)]
         self.n += 1
+        return
 
-    return
+    def Paint(self, dc):
+        dc.BeginDrawing()
+
+        dc.SetBrush(wxBrush(wxBLUE, wxBDIAGONAL_HATCH))
+        dc.SetPen(wxPen(wxBLUE))
+        dc.DrawPolygon(self.v)
+
+        for i in range(self.n):
+            if self.select == i:
+                dc.SetPen(wxPen(wxWHITE))
+            else:
+                dc.SetPen(wxPen(wxBLUE))
+            dc.DrawRectangle(self.v[i].x - 2, self.v[i].y - 2, 5, 5)
+
+        l1 = self.v[self.select]
+        l2 = self.v[(self.select - 1) % self.n]
+        dc.SetPen(wxPen(wxWHITE))
+        dc.DrawLine(l1.x, l1.y, l2.x, l2.y)
+
+        dc.EndDrawing()
+        return
+
+    def SaveToFile(self, filename):
+        f = open(filename, 'w')
+        f.write("<polygon>\n")
+        for i in range(self.n):
+            f.write("\t<vertex pos=" + str(self.v[i].x) + "," + str(self.v[i].y) + "/>\n")
+        f.write("</polygon>\n")
+        print "Polygon saved to " + filename
+        return
+
+    def LoadFromFile(self, filename):
+        f = open(filename, 'r')
+
+        self.n = 0
+        self.v = []
+        self.select = 0
+
+        done = false
+        while not done:
+            s = f.readline()
+            if find(s, "</polygon>") != -1:
+                done = true
+            elif find(s, "<vertex") != -1:
+                x_pos = find(s, "pos=") + 4
+                x_len = find(s, ",") - x_pos
+                y_pos = x_pos + x_len + 1
+                y_len = find(s, "/") - y_pos
+
+                x = int(s[x_pos:x_pos + x_len])
+                y = int(s[y_pos:y_pos + y_len])
+
+                self.v[self.n:self.n] = [wxPoint(x, y)]
+                self.n += 1
+
+        return
+
 
 class MainWindow(wxFrame):
 
-  def __init__(self, parent, ID, title):
-    wxFrame.__init__(self, parent, ID, title, wxDefaultPosition, wxSize(800, 600))
+    def __init__(self, parent, ID, title):
+        wxFrame.__init__(self, parent, ID, title, wxDefaultPosition, wxSize(800, 600))
 
-    self.CreateStatusBar()
-    self.SetStatusText("Left: Select point | Right: Move selected point | Middle: Insert point after selected point")
+        self.CreateStatusBar()
+        self.SetStatusText(
+            "Left: Select point | Right: Move selected point | Middle: Insert point after selected point")
 
-    menu = wxMenu()
-    menu.Append(ID_OPEN_IMAGE, "&Load background", "Load background image")
-    menu.AppendSeparator()
-    menu.Append(ID_SAVE_XML, "&Save polygon", "")
-    menu.Append(ID_LOAD_XML, "&Load polygon", "")
-    menu.AppendSeparator()
-    menu.Append(ID_EXIT, "E&xit", "Terminate the program")
-    menuBar = wxMenuBar()
-    menuBar.Append(menu, "&File")
-    self.SetMenuBar(menuBar)
+        menu = wxMenu()
+        menu.Append(ID_OPEN_IMAGE, "&Load background", "Load background image")
+        menu.AppendSeparator()
+        menu.Append(ID_SAVE_XML, "&Save polygon", "")
+        menu.Append(ID_LOAD_XML, "&Load polygon", "")
+        menu.AppendSeparator()
+        menu.Append(ID_EXIT, "E&xit", "Terminate the program")
+        menuBar = wxMenuBar()
+        menuBar.Append(menu, "&File")
+        self.SetMenuBar(menuBar)
 
-    EVT_MENU(self, ID_OPEN_IMAGE, self.OnOpenImage)
-    EVT_MENU(self, ID_EXIT, self.OnExit)
-    EVT_MENU(self, ID_SAVE_XML, self.OnSaveXML)
-    EVT_MENU(self, ID_LOAD_XML, self.OnLoadXML)
-    EVT_PAINT(self, self.OnPaint)
-    EVT_LEFT_DOWN(self, self.OnLClick)
-    EVT_RIGHT_DOWN(self, self.OnRClick)
-    EVT_MIDDLE_DOWN(self, self.OnMClick)
- 
-    self.background = 0
-    self.polygon = Polygon()
+        EVT_MENU(self, ID_OPEN_IMAGE, self.OnOpenImage)
+        EVT_MENU(self, ID_EXIT, self.OnExit)
+        EVT_MENU(self, ID_SAVE_XML, self.OnSaveXML)
+        EVT_MENU(self, ID_LOAD_XML, self.OnLoadXML)
+        EVT_PAINT(self, self.OnPaint)
+        EVT_LEFT_DOWN(self, self.OnLClick)
+        EVT_RIGHT_DOWN(self, self.OnRClick)
+        EVT_MIDDLE_DOWN(self, self.OnMClick)
 
-    return
+        self.background = 0
+        self.polygon = Polygon()
 
-  def OnExit(self, event):
-    self.Close(true)
-    return
+        return
 
-  def OnOpenImage(self, event):
-    dlg = wxFileDialog(self, "Choose background image", "", "", "*.*", wxOPEN)
-    if dlg.ShowModal() == wxID_OK:
-      file = dlg.GetPath()
-      print "Loading background image ", file
-      self.background = wxImage(file).ConvertToBitmap()
-      self.Refresh()
-    else:
-      print "Aborted"
-    return
+    def OnExit(self, event):
+        self.Close(true)
+        return
 
-  def OnPaint(self, event):
-    dc = wxPaintDC(self)
-    if self.background:
-      dc.DrawBitmap(self.background, 0, 0, 0)
-    self.polygon.Paint(dc)
-    return
+    def OnOpenImage(self, event):
+        dlg = wxFileDialog(self, "Choose background image", "", "", "*.*", wxOPEN)
+        if dlg.ShowModal() == wxID_OK:
+            file = dlg.GetPath()
+            print "Loading background image ", file
+            self.background = wxImage(file).ConvertToBitmap()
+            self.Refresh()
+        else:
+            print "Aborted"
+        return
 
-  def OnLClick(self, event):
-    self.polygon.Select(event.GetX(), event.GetY())
-    self.Refresh()
-    return
+    def OnPaint(self, event):
+        dc = wxPaintDC(self)
+        if self.background:
+            dc.DrawBitmap(self.background, 0, 0, 0)
+        self.polygon.Paint(dc)
+        return
 
-  def OnRClick(self, event):
-    self.polygon.MoveSelected(event.GetX(), event.GetY())
-    self.Refresh()
-    return
+    def OnLClick(self, event):
+        self.polygon.Select(event.GetX(), event.GetY())
+        self.Refresh()
+        return
 
-  def OnMClick(self, event):
-    self.polygon.InsertAfterSelected(event.GetX(), event.GetY())
-    self.Refresh()
-    return
+    def OnRClick(self, event):
+        self.polygon.MoveSelected(event.GetX(), event.GetY())
+        self.Refresh()
+        return
 
-  def OnSaveXML(self, event):
-    dlg = wxFileDialog(self, "Save polygon file", "", "", "*.polygon", wxSAVE)
-    if dlg.ShowModal() == wxID_OK:
-      self.polygon.SaveToFile(dlg.GetPath())
-    else:
-      print "Aborted"
-    return
+    def OnMClick(self, event):
+        self.polygon.InsertAfterSelected(event.GetX(), event.GetY())
+        self.Refresh()
+        return
 
-  def OnLoadXML(self, event):
-    dlg = wxFileDialog(self, "Choose polygon file", "", "", "*.polygon", wxOPEN)
-    if dlg.ShowModal() == wxID_OK:
-      self.polygon.LoadFromFile(dlg.GetPath())
-      self.Refresh()
-    else:
-      print "Aborted"
-    return
+    def OnSaveXML(self, event):
+        dlg = wxFileDialog(self, "Save polygon file", "", "", "*.polygon", wxSAVE)
+        if dlg.ShowModal() == wxID_OK:
+            self.polygon.SaveToFile(dlg.GetPath())
+        else:
+            print "Aborted"
+        return
+
+    def OnLoadXML(self, event):
+        dlg = wxFileDialog(self, "Choose polygon file", "", "", "*.polygon", wxOPEN)
+        if dlg.ShowModal() == wxID_OK:
+            self.polygon.LoadFromFile(dlg.GetPath())
+            self.Refresh()
+        else:
+            print "Aborted"
+        return
+
 
 class MyApp(wxApp):
-  def OnInit(self):
-    frame = MainWindow(NULL, -1, "Polygon editor")
-    frame.Show(true)
-    self.SetTopWindow(frame)
-    return true
+    def OnInit(self):
+        frame = MainWindow(NULL, -1, "Polygon editor")
+        frame.Show(true)
+        self.SetTopWindow(frame)
+        return true
+
 
 app = MyApp(0)
 app.MainLoop()
-
-

@@ -19,27 +19,19 @@
 
 #include "resource.h"
 
-namespace Res
-{
-	Resource::Resource(Resource::Type type, const Resource::ID &id)
-		: ref_count(0), loaded(false), type(type), id(id)
-	{
+namespace Res {
+    Resource::Resource(Resource::Type type, const Resource::ID &id)
+            : ref_count(0), loaded(false), type(type), id(id) {
 
-	}
+    }
 
-	Resource::~Resource()
-	{
-	}
+    void Resource::Lock() {
+        ++ref_count;
+        if (!loaded) Load();
+    }
 
-	void Resource::Lock()
-	{
-		++ref_count;
-		if (!loaded) Load();
-	}
-
-	void Resource::Unlock()
-	{
-		--ref_count;
-	}
+    void Resource::Unlock() {
+        --ref_count;
+    }
 } //ns
 

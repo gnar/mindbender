@@ -29,40 +29,37 @@
 
 class TiXmlElement;
 
-namespace Res
-{
-	class Font_Bitmap : public Font
-	{
-	public:
-		Font_Bitmap(const Resource::ID &id);
-		virtual ~Font_Bitmap();
+namespace Res {
+    class Font_Bitmap : public Font {
+    public:
+        explicit Font_Bitmap(const Resource::ID &id);
+        ~Font_Bitmap() override;
 
-		virtual void Draw(int x, int y, const std::string&text, FontVisual *visual = 0);
-		virtual int GetHeight();
-		virtual int GetWidth(char ch);
+        void Draw(int x, int y, const std::string &text, FontVisual *visual = nullptr) override;
+        int GetHeight() override;
+        int GetWidth(char ch) override;
 
-	private:
-		void LoadXML();
-		void LoadGlyphElement(TiXmlElement *glyph_elem);
+    private:
+        void LoadXML();
+        void LoadGlyphElement(TiXmlElement *glyph_elem);
 
-		void ParseImage(size_t img_idx, const char *file_id, int min, int max);
+        void ParseImage(size_t img_idx, const char *file_id, int min, int max);
 
-		virtual void Load();
-		virtual void Unload();
+        void Load() override;
+        void Unload() override;
 
-		struct Glyph
-		{
-			Glyph(int x, int y, int w, int h) : x(x), y(y), w(w), h(h) {}
-			~Glyph() {}
+        struct Glyph {
+            Glyph(int x, int y, int w, int h) : x(x), y(y), w(w), h(h) {}
+            ~Glyph() {}
 
-			size_t image_idx;
-			int x, y, w, h;
-		};
+            size_t image_idx;
+            int x, y, w, h;
+        };
 
-		int height; // font height
-		std::vector<Glyph*> glyphs; // glyph for all ascii codes
-		std::vector<Image*> images;
-	};
+        int height; // font height
+        std::vector<Glyph *> glyphs; // glyph for all ascii codes
+        std::vector<Image *> images;
+    };
 } //ns
 
 #endif

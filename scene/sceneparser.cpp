@@ -19,77 +19,64 @@
 
 #include "sceneloader.h"
 
-#include <iostream>
 #include <iomanip>
-#include <fstream>
 
-#include <assert.h>
 #include <memory>
 
 using namespace std;
 
-#include "object/sprite.h"
-#include "object/shape.h"
-
-SceneParser::SceneParser(const std::string &fn) 
-	: l(SceneLexer::TOK_ERROR) 
-{
-	input = new std::ifstream(fn.c_str());
-	lexer = new SceneLexer(*input, fn);
+SceneParser::SceneParser(const std::string &fn)
+        : l(SceneLexer::TOK_ERROR) {
+    input = new std::ifstream(fn.c_str());
+    lexer = new SceneLexer(*input, fn);
 }
 
-SceneParser::~SceneParser()
-{
-	delete lexer;
-	delete input;
+SceneParser::~SceneParser() {
+    delete lexer;
+    delete input;
 }
 
-void SceneParser::expect(SceneLexer::Token tok)
-{
-	if (tok != l.tok)
-	{
-		cout << "Expected other token" << endl;
-		assert(0);
-	}
-	lex();
+void SceneParser::expect(SceneLexer::Token tok) {
+    if (tok != l.tok) {
+        cout << "Expected other token" << endl;
+        assert(0);
+    }
+    lex();
 }
 
-void SceneParser::lex()
-{
-	l = lexer->lex();
-	if (l.tok == SceneLexer::TOK_ERROR)
-	{
-		cout << "Syntax error: " << l.str << endl;
-		assert(0);
-	}
+void SceneParser::lex() {
+    l = lexer->lex();
+    if (l.tok == SceneLexer::TOK_ERROR) {
+        cout << "Syntax error: " << l.str << endl;
+        assert(0);
+    }
 }
 
-int SceneParser::ParseInt()
-{
-	assert(l.tok == SceneLexer::TOK_INTEGER);
-	int v = l.integer;
-	lex();
-	return v;
+int SceneParser::ParseInt() {
+    assert(l.tok == SceneLexer::TOK_INTEGER);
+    int v = l.integer;
+    lex();
+    return v;
 }
 
-std::string SceneParser::ParseString()
-{
-	assert(l.tok == SceneLexer::TOK_STRING);
-	std::string v = l.str;
-	lex();
-	return v;
+std::string SceneParser::ParseString() {
+    assert(l.tok == SceneLexer::TOK_STRING);
+    std::string v = l.str;
+    lex();
+    return v;
 }
 
-bool SceneParser::ParseBoolean()
-{
-	switch (l.tok)
-	{
-		case SceneLexer::TOK_TRUE: return true;
-		case SceneLexer::TOK_FALSE:
-		case SceneLexer::TOK_NULL: return false;
-		default: assert(0);
-	}
-	assert(0);
-	return false;
+bool SceneParser::ParseBoolean() {
+    switch (l.tok) {
+        case SceneLexer::TOK_TRUE:
+            return true;
+        case SceneLexer::TOK_FALSE:
+        case SceneLexer::TOK_NULL:
+            return false;
+        default:
+            assert(false);
+    }
+    assert(false);
+    return false;
 }
 

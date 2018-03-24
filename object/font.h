@@ -32,45 +32,44 @@
 #define GET_FONT(v)           ((FontSet*)(v).value.object)
 
 // 'Font' collides with a X-Windows typedef, so we call it FontSet
-class FontSet : public TableObject
-{
+class FontSet : public TableObject {
 public:
-	// CONSTRUCTOR/DESTRUCTOR /////////////////////////////////
-	FontSet(CLContext *context, const std::string &res_id);
-	virtual ~FontSet();
+    // CONSTRUCTOR/DESTRUCTOR /////////////////////////////////
+    FontSet(CLContext *context, const std::string &res_id);
+    ~FontSet() override;
 
-	// PRINT STRINGS //////////////////////////////////////////
-	void Print(int X, int Y, const std::string &str);
-	void PrintCenter(int X, int Y, const std::string &str);
-	void PrintBoxed(int X, int Y, int width, const std::string &str);
-	void Print(const std::string &str);
-	void PrintCenter(const std::string &str);
+    // PRINT STRINGS //////////////////////////////////////////
+    void Print(int X, int Y, const std::string &str);
+    void PrintCenter(int X, int Y, const std::string &str);
+    void PrintBoxed(int X, int Y, int width, const std::string &str);
+    void Print(const std::string &str);
+    void PrintCenter(const std::string &str);
 
-	// GET FONT INFORMATION ///////////////////////////////////
-	int GetWidth(char ch);
-	int GetWidth(const std::string &str);
-	int GetHeight();
+    // GET FONT INFORMATION ///////////////////////////////////
+    int GetWidth(char ch);
+    int GetWidth(const std::string &str);
+    int GetHeight();
 
-	// SAVE & LOAD STATE //////////////////////////////////////
-	static void Save(CLSerialSaver &S, FontSet *font);
-	static FontSet *Load(CLSerialLoader &S);
+    // SAVE & LOAD STATE //////////////////////////////////////
+    static void Save(CLSerialSaver &S, FontSet *font);
+    static FontSet *Load(CLSerialLoader &S);
 
 private:
-	// CLObject ///////////////////////////////////////////////
-	void markReferenced(); // GC
-	void set(CLValue &key, CLValue &val);
-	bool get(CLValue &key, CLValue &val);
+    // CLObject ///////////////////////////////////////////////
+    void markReferenced() override; // GC
+    void set(CLValue &key, CLValue &val) override;
+    bool get(CLValue &key, CLValue &val) override;
 
-	// PRIVATE MEMBERS ////////////////////////////////////////
+    // PRIVATE MEMBERS ////////////////////////////////////////
 private:
-	int x, y;
-	int r, g, b, a; // color
-	Res::Font *font_res;
+    int x, y;
+    int r, g, b, a; // color
+    Res::Font *font_res;
 
-	CLValue method_print;
-	CLValue method_print_center;
-	CLValue method_get_length;
-	CLValue method_get_height;
+    CLValue method_print;
+    CLValue method_print_center;
+    CLValue method_get_length;
+    CLValue method_get_height;
 };
 
 #endif

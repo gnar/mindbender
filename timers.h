@@ -24,30 +24,28 @@
 
 #include <list>
 
-class TimerManager
-{
+class TimerManager {
 public:
-	// CONSTRUCTION ////////////////////////////////////////////////
-	TimerManager();
-	~TimerManager();
+    // CONSTRUCTION ////////////////////////////////////////////////
+    TimerManager();
+    ~TimerManager();
 
-	void Clear();
-	void Update(float dt);
+    void Clear();
+    void Update(float dt);
 
-	// ADD/REMOVE TIMERS ///////////////////////////////////////////
-	void AddTimer(CLValue timer);
-	void DelTimer(CLValue timer);
+    // ADD/REMOVE TIMERS ///////////////////////////////////////////
+    void AddTimer(CLValue timer);
+    void DelTimer(CLValue timer);
 
-	// SAVE & LOAD /////////////////////////////////////////////////
-	void Save(CLSerializer &S);
-	void Load(CLSerializer &S);
+    // SAVE & LOAD /////////////////////////////////////////////////
+    void Save(CLSerializer &S);
+    void Load(CLSerializer &S);
 
-	// GARBAGE COLLECTION //////////////////////////////////////////
-	void MarkObjects();
+    // GARBAGE COLLECTION //////////////////////////////////////////
+    void MarkObjects();
 
 private:
-	std::list<CLValue> timers;
+    std::list<CLValue> timers;
 };
 
 #endif
-

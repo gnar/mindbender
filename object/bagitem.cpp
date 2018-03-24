@@ -20,97 +20,89 @@
 #include "object/bagitem.h"
 #include "object/sprite.h"
 
-#include <iostream>
 using namespace std;
 
 BagItem::BagItem(CLContext *context)
-	: TableObject(context)
-{
-	SetName("<unnamed bag item>");
+        : TableObject(context) {
+    SetName("<unnamed bag item>");
 }
 
-BagItem::~BagItem()
-{
+BagItem::~BagItem() = default;
+
+void BagItem::Draw(int y, int x) {
+    if (!sprite.isNull()) {
+        Sprite *spr = GET_SPRITE(sprite);
+        spr->Draw(x, y);
+    }
 }
 
-void BagItem::Draw(int y, int x)
-{
-	if (!sprite.isNull()) 
-	{
-		Sprite *spr = GET_SPRITE(sprite);
-		spr->Draw(x, y);
-	}
+void BagItem::set(CLValue &key, CLValue &val) {
+    if (key.type == CL_STRING) {
+        const std::string k = GET_STRING(key)->get();
+
+        if (k == "sprite") {
+            this->sprite = val;
+            return;
+        } else if (k == "name") {
+            this->name = GET_STRING(val)->get();
+            return;
+        }
+    }
+
+    TableObject::set(key, val);
 }
 
-void BagItem::set(CLValue &key, CLValue &val)
-{
-	if (key.type == CL_STRING)
-	{
-		const std::string k = GET_STRING(key)->get();
+bool BagItem::get(CLValue &key, CLValue &val) {
+    if (key.type == CL_STRING) {
+        const std::string k = GET_STRING(key)->get();
 
-		if (k == "sprite") {
-			this->sprite = val; return;
-		} else if (k == "name") {
-			this->name = GET_STRING(val)->get(); return;
-		}
-	}
+        if (k == "sprite") {
+            val = this->sprite;
+            return true;
+        } else if (k == "name") {
+            val = CLValue(new CLString(getContext(), this->name.c_str()));
+            return true;
+        }
+    }
 
-	TableObject::set(key, val); return;
+    return TableObject::get(key, val);
 }
 
-bool BagItem::get(CLValue &key, CLValue &val)
-{
-	if (key.type == CL_STRING)
-	{
-		const std::string k = GET_STRING(key)->get();
+void BagItem::markReferenced() {
+    TableObject::markReferenced();
 
-		if (k == "sprite") {
-			val = this->sprite; return true;
-		} else if (k == "name") {
-			val = CLValue(new CLString(getContext(), this->name.c_str())); return true;
-		}
-	}
-
-	return TableObject::get(key, val);
-}
-
-void BagItem::markReferenced()
-{
-	TableObject::markReferenced();
-
-	sprite.markObject();
+    sprite.markObject();
 }
 
 ///////////////////////////////////////////////////////////////////
 // SAVE & LOAD STATE                                             //
 ///////////////////////////////////////////////////////////////////
-void BagItem::Save(CLSerialSaver &S, BagItem *bagitem)
-{
-	// Name
-	S.IO(bagitem->name);
+void BagItem::Save(CLSerialSaver &S, BagItem *bagitem) {
+    // Name
+    S.IO(bagitem->name);
 
-	// Sprite
-	CLValue::save(S, bagitem->sprite);
+    // Sprite
+    CLValue::save(S, bagitem->sprite);
 
-	// save tableobject
-	TableObject::Save(S, bagitem);
+    // save tableobject
+    TableObject::Save(S, bagitem);
 }
 
-BagItem *BagItem::Load(CLSerialLoader &S)
-{
-	BagItem *bagitem = new BagItem(S.getContext()); S.addPtr(bagitem);
+BagItem *BagItem::Load(CLSerialLoader &S) {
+    auto *bagitem = new BagItem(S.getContext());
+    S.addPtr(bagitem);
 
-	// Name
-	std::string name;
-	S.IO(name);
-	bagitem->SetName(name);
+    // Name
+    std::string name;
+    S.IO(name);
+    bagitem->SetName(name);
 
-	// Sprite
-	bagitem->sprite = CLValue::load(S);
+    // Sprite
+    bagitem->sprite = CLValue::load(S);
 
-	// load tableobject
-	TableObject::Load(S, bagitem);
+    // load tableobject
+    TableObject::Load(S, bagitem);
 
-	return bagitem;
+    return bagitem;
 }
 

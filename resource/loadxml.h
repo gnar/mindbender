@@ -24,22 +24,21 @@
 #include "tinyxml/tinyxml.h"
 
 // Load an TiXmlDocument from a file
-static TiXmlDocument *LoadXMLDocument(PHYSFS_file *handle)
-{
-	char *data = new char [64*1024];
-	long size = PHYSFS_read(handle, data, 1, 64*1024);
-	data[size] = 0;
-	PHYSFS_close(handle);
-	
-	// load data into a stream
-	std::stringstream sstr;
-	sstr << data;
-	delete [] data;
+static TiXmlDocument *LoadXMLDocument(PHYSFS_File *handle) {
+    auto *data = new char[64 * 1024];
+    long size = PHYSFS_read(handle, data, 1, 64 * 1024);
+    data[size] = 0;
+    PHYSFS_close(handle);
 
-	// stream data into xml parser
-	TiXmlDocument *doc = new TiXmlDocument();
-	sstr >> (*doc); // Parse XML
-	return doc;
+    // load data into a stream
+    std::stringstream sstr;
+    sstr << data;
+    delete[] data;
+
+    // stream data into xml parser
+    auto *doc = new TiXmlDocument();
+    sstr >> (*doc); // Parse XML
+    return doc;
 }
 
 #endif

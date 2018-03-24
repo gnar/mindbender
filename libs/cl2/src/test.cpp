@@ -26,7 +26,7 @@
 
 using namespace std;
 
-int main(char argc, char **args)
+int main(int argc, char **args)
 {
 	srand(time(0));
 

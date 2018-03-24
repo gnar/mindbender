@@ -26,9 +26,8 @@ class Configuration &GetConfiguration();
 
 class Main_ &Main(); // Singleton getter
 
-class Main_
-{
-	bool do_exit;
+class Main_ {
+    bool do_exit;
 
 	Main_() : do_exit(false) {}
 	friend Main_ &Main();
@@ -36,9 +35,9 @@ class Main_
 	bool HandleEvent(SDL_Event &event); // returns true if event handled
 
 public:
-	int run(int argc, char** argv);
-	
-	void Exit() { do_exit = true; }
+    int run(int argc, char **argv);
+
+    void Exit() { do_exit = true; }
 };
 
 #endif

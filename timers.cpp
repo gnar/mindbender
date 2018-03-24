@@ -21,79 +21,64 @@
 
 #include "object/timer.h"
 
-#include <iostream>
 using namespace std;
 
 ////////////////////////////////////////////////////////////////
 // CONSTRUCTION                                               //
 ////////////////////////////////////////////////////////////////
-TimerManager::TimerManager()
-{
-	Clear();
+TimerManager::TimerManager() {
+    Clear();
 }
 
-TimerManager::~TimerManager()
-{
+TimerManager::~TimerManager() = default;
+
+void TimerManager::Clear() {
+    timers.clear();
 }
 
-void TimerManager::Clear()
-{
-	timers.clear();
-}
-
-void TimerManager::Update(float dt)
-{
-	std::list<CLValue>::iterator it = timers.begin(), end = timers.end();
-	for (;it!=end;++it)
-	{
-		Timer *T = GET_TIMER(*it);
-		T->Update(dt);
-	}
+void TimerManager::Update(float dt) {
+    auto it = timers.begin(), end = timers.end();
+    for (; it != end; ++it) {
+        Timer *T = GET_TIMER(*it);
+        T->Update(dt);
+    }
 }
 
 ////////////////////////////////////////////////////////////////
 // ADD/REMOVE TIMERS                                          //
 ////////////////////////////////////////////////////////////////
-void TimerManager::AddTimer(CLValue timer)
-{
-	timers.push_back(timer);
+void TimerManager::AddTimer(CLValue timer) {
+    timers.push_back(timer);
 }
 
-void TimerManager::DelTimer(CLValue timer)
-{
-	Timer *T = GET_TIMER(timer);
+void TimerManager::DelTimer(CLValue timer) {
+    Timer *T = GET_TIMER(timer);
 
-	std::list<CLValue>::iterator it = timers.begin(), end = timers.end();
-	for (;it!=end;++it)
-	{
-		if (GET_TIMER(*it) == T)
-		{
-			it = timers.erase(it);
-		}
-	}
+    auto it = timers.begin(), end = timers.end();
+    for (; it != end; ++it) {
+        if (GET_TIMER(*it) == T) {
+            it = timers.erase(it);
+        }
+    }
 }
 
 ////////////////////////////////////////////////////////////////
 // SAVE & LOAD                                                //
 ////////////////////////////////////////////////////////////////
-void TimerManager::Save(CLSerializer &S)
-{
+void TimerManager::Save(CLSerializer &S) {
 }
 
-void TimerManager::Load(CLSerializer &S)
-{
+void TimerManager::Load(CLSerializer &S) {
 }
 
 ////////////////////////////////////////////////////////////////
 // GARBAGE COLLECTION                                         //
 ////////////////////////////////////////////////////////////////
-void TimerManager::MarkObjects()
-{
-	std::list<CLValue>::iterator it = timers.begin(), end = timers.end();
-	for (;it!=end;++it)
-	{
-		//if (hat ein callback) it->markObject();
-	}
+void TimerManager::MarkObjects() {
+    auto it = timers.begin(), end = timers.end();
+    for (; it != end; ++it) {
+        //if (hat ein callback) it->markObject();
+    }
 }
 
 

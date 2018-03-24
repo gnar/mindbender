@@ -25,31 +25,29 @@
 
 #define GET_ITEM(v)           ((Item*)(v).value.object)
 
-class Item : public RoomObject
-{
+class Item : public RoomObject {
 public:
-	Item(CLContext *context);
-	virtual ~Item();
+    explicit Item(CLContext *context);
+    ~Item() override;
 
-	void Draw();
-	void DebugDraw();
+    void Draw() override;
+    void DebugDraw() override;
 
-	// GET/SET SPRITE /////////////////////////////////////////////////
-	CLValue GetSprite() { return sprite; }
-	void SetSprite(CLValue s) { sprite = s; }
+    // GET/SET SPRITE /////////////////////////////////////////////////
+    CLValue GetSprite() { return sprite; }
+    void SetSprite(CLValue &s) { sprite = s; }
 
-	// SAVE & LOAD STATE //////////////////////////////////////////////
-	static void Save(CLSerialSaver &S, Item *bagitem);
-	static Item *Load(CLSerialLoader &S);
+    // SAVE & LOAD STATE //////////////////////////////////////////////
+    static void Save(CLSerialSaver &S, Item *bagitem);
+    static Item *Load(CLSerialLoader &S);
 
-	void markReferenced();
-	void set(CLValue &key, CLValue &val);
-	bool get(CLValue &key, CLValue &val); // returns true if key existed
+    void markReferenced() override;
+    void set(CLValue &key, CLValue &val) override;
+    bool get(CLValue &key, CLValue &val) override; // returns true if key existed
 
 private:
-	CLValue sprite;
-
-	CLValue on_draw;
+    CLValue sprite;
+    CLValue on_draw;
 };
 
 #endif

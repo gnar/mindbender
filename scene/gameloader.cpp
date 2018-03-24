@@ -20,127 +20,106 @@
 #include "gameloader.h"
 #include "sceneloader.h"
 
-#include <iostream>
 #include <iomanip>
-#include <fstream>
-
-#include <assert.h>
 #include <memory>
 
 using namespace std;
 
-GameLoader::GameLoader(CLContext *context, const std::string &fn) : SceneParser(fn), context(context)
-{
+GameLoader::GameLoader(CLContext *context, const std::string &fn) : SceneParser(fn), context(context) {
 }
 
-GameLoader::~GameLoader()
-{
-	std::list<SceneLoader*>::iterator it, end = scene_loaders.end();
-	for (it=scene_loaders.begin(); it!=end; ++it)	
-	{
-		delete *it;
-	}
+GameLoader::~GameLoader() {
+    std::list<SceneLoader *>::iterator it, end = scene_loaders.end();
+    for (it = scene_loaders.begin(); it != end; ++it) {
+        delete *it;
+    }
 }
 
 // Parse a scene file
-void GameLoader::Parse()
-{
-	lex(); // read first token
+void GameLoader::Parse() {
+    lex(); // read first token
 
-	bool done = false;
-	while (!done)
-	{
-		switch (l.tok)
-		{
-			case SceneLexer::TOK_PROLOG:
-			{
-				lex();
-				expect(SceneLexer::TOK_SCRIPT);
-				expect(SceneLexer::Token(':'));
-				std::string fn = ParseString();
-				prolog_scripts.push_back(fn);
-				//cout << "Prolog: " << fn << endl;
-				break;
-			}
+    bool done = false;
+    while (!done) {
+        switch (l.tok) {
+            case SceneLexer::TOK_PROLOG: {
+                lex();
+                expect(SceneLexer::TOK_SCRIPT);
+                expect(SceneLexer::Token(':'));
+                std::string fn = ParseString();
+                prolog_scripts.push_back(fn);
+                //cout << "Prolog: " << fn << endl;
+                break;
+            }
 
-			case SceneLexer::TOK_RUN:
-			{
-				lex();
-				expect(SceneLexer::TOK_SCRIPT);
-				expect(SceneLexer::Token(':'));
-				std::string fn = ParseString();
-				run_scripts.push_back(fn);
-				//cout << "Run: " << fn << endl;
-				break;
-			}
+            case SceneLexer::TOK_RUN: {
+                lex();
+                expect(SceneLexer::TOK_SCRIPT);
+                expect(SceneLexer::Token(':'));
+                std::string fn = ParseString();
+                run_scripts.push_back(fn);
+                //cout << "Run: " << fn << endl;
+                break;
+            }
 
-			case SceneLexer::TOK_SCENE:
-			{
-				lex();
-				expect(SceneLexer::Token(':'));
-				std::string fn = ParseString();
-				SceneLoader *sl = new SceneLoader(context, fn);
-				scene_loaders.push_back(sl);
-				//cout << "Scene: " << fn << endl;
-				break;
-			}
+            case SceneLexer::TOK_SCENE: {
+                lex();
+                expect(SceneLexer::Token(':'));
+                std::string fn = ParseString();
+                auto *sl = new SceneLoader(context, fn);
+                scene_loaders.push_back(sl);
+                //cout << "Scene: " << fn << endl;
+                break;
+            }
 
-			case SceneLexer::TOK_EOF:
-				done = true;
-				break;
+            case SceneLexer::TOK_EOF:
+                done = true;
+                break;
 
-			default:
-				assert(0);
-		}
-	}
+            default:
+                assert(false);
+        }
+    }
 }
 
 
-void GameLoader::RunPrologScripts()
-{
-	std::list<std::string>::iterator it, end = prolog_scripts.end();
-	for (it=prolog_scripts.begin(); it != end; ++it)
-	{
-		const std::string &fn = *it;
-		cout << "Running prolog script " << fn << endl;
+void GameLoader::RunPrologScripts() {
+    std::list<std::string>::iterator it, end = prolog_scripts.end();
+    for (it = prolog_scripts.begin(); it != end; ++it) {
+        const std::string &fn = *it;
+        cout << "Running prolog script " << fn << endl;
 
-		CLValue thread(new CLThread(context));
-		GET_THREAD(thread)->init(CLCompiler::compile(context, fn));
-		GET_THREAD(thread)->enableYield(false);
-		GET_THREAD(thread)->run();
-	}
+        CLValue thread(new CLThread(context));
+        GET_THREAD(thread)->init(CLCompiler::compile(context, fn));
+        GET_THREAD(thread)->enableYield(false);
+        GET_THREAD(thread)->run();
+    }
 }
 
-void GameLoader::ParseScenes()
-{
-	std::list<SceneLoader*>::iterator it, end = scene_loaders.end();
-	for (it=scene_loaders.begin(); it!=end; ++it)	
-	{
-		(*it)->Parse();
-	}
+void GameLoader::ParseScenes() {
+    std::list<SceneLoader *>::iterator it, end = scene_loaders.end();
+    for (it = scene_loaders.begin(); it != end; ++it) {
+        (*it)->Parse();
+    }
 }
 
-void GameLoader::RunSceneScripts()
-{
-	std::list<SceneLoader*>::iterator it, end = scene_loaders.end();
-	for (it=scene_loaders.begin(); it!=end; ++it)	
-	{
-		(*it)->RunAttachedScripts();
-	}
+void GameLoader::RunSceneScripts() {
+    std::list<SceneLoader *>::iterator it, end = scene_loaders.end();
+    for (it = scene_loaders.begin(); it != end; ++it) {
+        (*it)->RunAttachedScripts();
+    }
 }
 
-void GameLoader::RunStartScripts()
-{
-	std::list<std::string>::iterator it, end = run_scripts.end();
-	for (it=run_scripts.begin(); it != end; ++it)
-	{
-		const std::string &fn = *it;
-		cout << "Running starting script " << fn << endl;
+void GameLoader::RunStartScripts() {
+    std::list<std::string>::iterator it, end = run_scripts.end();
+    for (it = run_scripts.begin(); it != end; ++it) {
+        const std::string &fn = *it;
+        cout << "Running starting script " << fn << endl;
 
-		CLValue thread(new CLThread(context));
-		GET_THREAD(thread)->init(CLCompiler::compile(context, fn));
-		GET_THREAD(thread)->enableYield(false);
-		GET_THREAD(thread)->run();
-	}
+        CLValue thread(new CLThread(context));
+        GET_THREAD(thread)->init(CLCompiler::compile(context, fn));
+        GET_THREAD(thread)->enableYield(false);
+        GET_THREAD(thread)->run();
+    }
 }
 

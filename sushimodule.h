@@ -22,11 +22,10 @@
 
 #include "cl2/cl2.h"
 
-class SushiModule : public CLModule
-{
+class SushiModule : public CLModule {
 public:
-	SushiModule();
-	virtual ~SushiModule();
+    SushiModule();
+    ~SushiModule() override;
 };
 
 #endif

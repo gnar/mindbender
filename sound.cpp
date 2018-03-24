@@ -1,14 +1,10 @@
 #include "sound.h"
 
-#include <stdio.h>
-
-#include <physfs/physfs.h>
 //#include <fmod.h>
 //#include <fmod_errors.h>
 
 #include <resource/manager.h>
 
-#include <iostream>
 using namespace std;
 
 /*
@@ -67,54 +63,50 @@ FMOD_RESULT F_CALLBACK fmod_read(
 
 }
 */
-static FMOD_SYSTEM *fsystem = 0;
+static FMOD_SYSTEM *fsystem = nullptr;
 
-FMOD_SYSTEM *SoundSystem()
-{
-	return ::fsystem;
+FMOD_SYSTEM *SoundSystem() {
+    return ::fsystem;
 }
 
-void InitSound(int freq)
-{
-	/*if (freq == 0)    freq = 32000; // default value
-	if (freq <  4000) freq = 4000;
-	if (freq > 65535) freq = 65535;
-	
-	int channels = 0;
-	if (channels <= 0) channels = 32; // 32 = default value, also clip between 1 
-	if (channels > 64) channels = 64; // and 64*/
+void InitSound(int freq) {
+    /*if (freq == 0)    freq = 32000; // default value
+    if (freq <  4000) freq = 4000;
+    if (freq > 65535) freq = 65535;
 
-	::fsystem = 0;
+    int channels = 0;
+    if (channels <= 0) channels = 32; // 32 = default value, also clip between 1
+    if (channels > 64) channels = 64; // and 64*/
 
-	/*
-	FMOD_RESULT result = FMOD_System_Create(&::fsystem);
-	if (result != FMOD_OK)
-	{
-		printf("FMOD error: (%d) %s\n", result, FMOD_ErrorString(result));
-		::fsystem = 0;
-		return;
-	}
-	
-	result = FMOD_System_Init(::fsystem, 2*16, FMOD_INIT_NORMAL, 0);
-	if (result != FMOD_OK)
-	{
-		printf("FMOD error: (%d) %s\n", result, FMOD_ErrorString(result));
-		::fsystem = 0;
-		return;
-	}
-	
-	// Glue FMOD to PhysFS
-	FMOD_System_SetFileSystem(::fsystem, &fmod_open, &fmod_close, &fmod_read, &fmod_seek, 2048);
-	*/
+    ::fsystem = nullptr;
+
+    /*
+    FMOD_RESULT result = FMOD_System_Create(&::fsystem);
+    if (result != FMOD_OK)
+    {
+        printf("FMOD error: (%d) %s\n", result, FMOD_ErrorString(result));
+        ::fsystem = 0;
+        return;
+    }
+
+    result = FMOD_System_Init(::fsystem, 2*16, FMOD_INIT_NORMAL, 0);
+    if (result != FMOD_OK)
+    {
+        printf("FMOD error: (%d) %s\n", result, FMOD_ErrorString(result));
+        ::fsystem = 0;
+        return;
+    }
+
+    // Glue FMOD to PhysFS
+    FMOD_System_SetFileSystem(::fsystem, &fmod_open, &fmod_close, &fmod_read, &fmod_seek, 2048);
+    */
 }
 
-void DoneSound()
-{
-	if (::fsystem != 0)
-	{
- 		//FMOD_System_Release(::fsystem);
-		::fsystem = 0;
-	}
+void DoneSound() {
+    if (::fsystem != nullptr) {
+        //FMOD_System_Release(::fsystem);
+        ::fsystem = nullptr;
+    }
 }
 
 

@@ -23,82 +23,78 @@
 #include <iostream>
 #include <string>
 
-
-class SceneLexer
-{
+class SceneLexer {
 public:
-	enum Token
-	{
-		TOK_ERROR=-1,
+    enum Token {
+        TOK_ERROR = -1,
 
-		TOK_EOF=256,
-		TOK_INTEGER,
-		TOK_FLOAT,
-		TOK_STRING,
-		TOK_IDENTIFIER,
+        TOK_EOF = 256,
+        TOK_INTEGER,
+        TOK_FLOAT,
+        TOK_STRING,
+        TOK_IDENTIFIER,
 
-		TOK_ITEM,		// item
-		TOK_BAGITEM,		// bagitem
-		TOK_ACTOR,		// actor
-		TOK_ROOM,		// room
-		TOK_GAME,		// game
+        TOK_ITEM,        // item
+        TOK_BAGITEM,        // bagitem
+        TOK_ACTOR,        // actor
+        TOK_ROOM,        // room
+        TOK_GAME,        // game
 
-		TOK_PROLOG,		// prolog
-		TOK_RUN,		// run
-		TOK_SCRIPT,		// script
-		TOK_FUNCTION,		// function
-		TOK_SCENE,		// scene
-		
-		TOK_TRANSLATE,		// translate
-		TOK_SCALE,		// scale
+        TOK_PROLOG,        // prolog
+        TOK_RUN,        // run
+        TOK_SCRIPT,        // script
+        TOK_FUNCTION,        // function
+        TOK_SCENE,        // scene
 
-		TOK_FOREGROUND,         // foreground
-		TOK_MAINPLANE,          // mainplane
-		TOK_BACKGROUND,         // background
+        TOK_TRANSLATE,        // translate
+        TOK_SCALE,        // scale
 
-		TOK_TRUE,
-		TOK_FALSE,
-		TOK_NULL,
-	};
+        TOK_FOREGROUND,         // foreground
+        TOK_MAINPLANE,          // mainplane
+        TOK_BACKGROUND,         // background
 
-	struct Lexeme
-	{
-		Lexeme(Token t) : tok(t) {}
-		
-		Lexeme(char t)
-		{
-			tok = (Token)t;
-		}
+        TOK_TRUE,
+        TOK_FALSE,
+        TOK_NULL,
+    };
 
-		Token tok;
-		std::string str;
-		int integer;
-		float real;
-	};
+    struct Lexeme {
+        Lexeme(Token t) : tok(t), integer(0), real(0) {}
+        Lexeme(char t) : tok((Token) t), integer(0), real(0) {}
 
-	SceneLexer(std::istream &input, const std::string &filename = "<input>");
+        Token tok;
+        std::string str;
+        int integer;
+        float real;
+    };
 
-	SceneLexer::Lexeme lex();  // return next token 
+    explicit SceneLexer(std::istream &input, const std::string &filename = "<input>");
 
-	int getLine() { return lineno; }
-	const std::string getFile() { return filename; }
+    SceneLexer::Lexeme lex();  // return next token
+
+    int getLine() { return lineno; }
+
+    const std::string getFile() { return filename; }
 
 private:
-	std::istream &input;
-	std::string filename;
-	int lineno; // line position in file, line position of last returned token
-	char tmpstr[2048];
+    std::istream &input;
+    std::string filename;
+    int lineno; // line position in file, line position of last returned token
+    char tmpstr[2048];
 
-	char ch; // current char
-	bool eof;
-	bool err;
-	void next();
-	
-	bool eatComment();
-	SceneLexer::Lexeme readNumber();
-	SceneLexer::Lexeme readString();
-	SceneLexer::Lexeme readKeywordOrIdentifier();
-	SceneLexer::Lexeme error(const char *reason);
+    char ch; // current char
+    bool eof;
+    bool err;
+
+    void next();
+
+    bool eatComment();
+
+    SceneLexer::Lexeme readNumber();
+    SceneLexer::Lexeme readString();
+    SceneLexer::Lexeme readKeywordOrIdentifier();
+
+    SceneLexer::Lexeme error(const char *reason);
 };
 
 #endif

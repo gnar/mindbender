@@ -27,31 +27,29 @@
 
 #define GET_BAGITEM(v)           ((BagItem*)(v).value.object)
 
-class BagItem : public TableObject
-{
+class BagItem : public TableObject {
 public:
-	BagItem(CLContext *context);
-	virtual ~BagItem();
+    explicit BagItem(CLContext *context);
+    ~BagItem() override;
 
-	void Draw(int x, int y);
+    void Draw(int x, int y);
+    void SetName(const std::string &name_) { name = name_; }
+    const std::string &GetName() { return name; }
 
-	void SetName(const std::string &name_) { name = name_; }
-	const std::string &GetName() { return name; }
+    void SetSprite(CLValue &s) { sprite = s; }
+    CLValue GetSprite() { return sprite; }
 
-	void SetSprite(CLValue s) { sprite = s; }
-	CLValue GetSprite() { return sprite; }
-
-	// SAVE & LOAD STATE //////////////////////////////////////////////
-	static void Save(CLSerialSaver &S, BagItem *bagitem);
-	static BagItem *Load(CLSerialLoader &S);
+    // SAVE & LOAD STATE //////////////////////////////////////////////
+    static void Save(CLSerialSaver &S, BagItem *bagitem);
+    static BagItem *Load(CLSerialLoader &S);
 
 private:
-	void markReferenced();
-	void set(CLValue &key, CLValue &val);
-	bool get(CLValue &key, CLValue &val); // returns true if key existed
+    void markReferenced() override;
+    void set(CLValue &key, CLValue &val) override;
+    bool get(CLValue &key, CLValue &val) override; // returns true if key existed
 
-	std::string name;
-	CLValue sprite;
+    std::string name;
+    CLValue sprite;
 };
 
 #endif

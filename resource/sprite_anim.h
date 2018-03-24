@@ -27,96 +27,94 @@
 
 class TiXmlElement;
 
-namespace Res
-{
-	class SpriteState_Anim : public SpriteState
-	{
-	public:
-		SpriteState_Anim(class Sprite_Anim *sprite);
-		virtual ~SpriteState_Anim();
+namespace Res {
+    class SpriteState_Anim : public SpriteState {
+    public:
+        explicit SpriteState_Anim(class Sprite_Anim *sprite);
+        ~SpriteState_Anim() override;
 
-		virtual void Update(float time_passed);
-		virtual void Rewind();
+        void Update(float time_passed) override;
+        void Rewind() override;
 
-		virtual void SetTrack(const std::string &track_id);
-		virtual const std::string &GetTrack();
+        void SetTrack(const std::string &track_id) override;
+        const std::string &GetTrack() override;
 
-		virtual bool IsFinished() { return finished && time >= 0.0f; }
+        bool IsFinished() override { return finished && time >= 0.0f; }
+        void Save(CLSerializer &S) override;
+        void Load(CLSerializer &S) override;
 
-		virtual void Save(CLSerializer &S);
-		virtual void Load(CLSerializer &S);
-		
-	private:
-		friend class Sprite_Anim;
+    private:
+        friend class Sprite_Anim;
 
-		class Sprite_Anim *sprite;
-		int track_idx;   // current track
-		int track_pos;   // current position in track
-		int display_pos; // track display-item that 
-		float time;      // for delay-statements
-		bool forward;    // ..or backward playing
-		bool finished;   // is animation finished?
-	};
+        class Sprite_Anim *sprite;
 
-	// An animated sprite
-	class Sprite_Anim : public Sprite
-	{
-	public:
-		Sprite_Anim(const Resource::ID &id);
-		virtual ~Sprite_Anim();
+        int track_idx;   // current track
+        int track_pos;   // current position in track
+        int display_pos; // track display-item that
+        float time;      // for delay-statements
+        bool forward;    // ..or backward playing
+        bool finished;   // is animation finished?
+    };
 
-		virtual SpriteState *CreateSpriteState();
-		virtual void Draw(int x, int y, SpriteState *state, SpriteVisual *visual);
+    // An animated sprite
+    class Sprite_Anim : public Sprite {
+    public:
+        explicit Sprite_Anim(const Resource::ID &id);
+        ~Sprite_Anim() override;
 
-		virtual bool HasTrack(const std::string &id);
+        SpriteState *CreateSpriteState() override;
 
-	private:
-		friend class SpriteState_Anim;
+        void Draw(int x, int y, SpriteState *state, SpriteVisual *visual) override;
+        bool HasTrack(const std::string &id) override;
 
-		virtual void Load();
-		virtual void Unload();
+    private:
+        friend class SpriteState_Anim;
 
-		struct Rect
-		{
-			Rect() : full(true) {}
-			Rect(int x, int y, int w, int h) : full(false), x(x), y(y), w(w), h(h) {}
-			~Rect() {}
+        void Load() override;
+        void Unload() override;
 
-			bool full; // Use full sprite?
-			int x, y, w, h;
-		};
-		Rect ParseRectAttribute(TiXmlElement *elem);
+        struct Rect {
+            Rect() : full(true) {}
+            Rect(int x, int y, int w, int h) : full(false), x(x), y(y), w(w), h(h) {}
+            ~Rect() = default;
 
-		struct TrackItem
-		{
-			enum Type { DISPLAY, DELAY } type;
+            bool full; // Use full sprite?
+            int x{}, y{}, w{}, h{};
+        };
 
-			// type = DISPLAY
-			Image *image;
-			Rect rect; // part of image to be displayed
-			int origin_x, origin_y;
+        Rect ParseRectAttribute(TiXmlElement *elem);
 
-			// type = DELAY
-			int delay;
-		};
+        struct TrackItem {
+            enum Type {
+                DISPLAY, DELAY
+            } type;
 
-		struct Track
-		{
-			std::string id;
-			int default_delay;
-			int default_origin_x, default_origin_y;
-			enum LoopMode { REWIND, HALT, PINGPONG } loop_mode;
-			std::vector<TrackItem> items;
-		};
+            // type = DISPLAY
+            Image *image;
+            Rect rect; // part of image to be displayed
+            int origin_x, origin_y;
 
-		std::vector<Track> tracks;
+            // type = DELAY
+            int delay;
+        };
 
-		void LoadXML();
-		void LoadTrack(TiXmlElement *item);
-		void LoadTrackItem(TiXmlElement *item, Track &track);
+        struct Track {
+            std::string id;
+            int default_delay;
+            int default_origin_x, default_origin_y;
+            enum LoopMode {
+                REWIND, HALT, PINGPONG
+            } loop_mode;
+            std::vector<TrackItem> items;
+        };
 
-		void UpdateState(SpriteState_Anim &state, float time_passed);
-	};
+        std::vector<Track> tracks;
+
+        void LoadXML();
+        void LoadTrack(TiXmlElement *item);
+        void LoadTrackItem(TiXmlElement *item, Track &track);
+        void UpdateState(SpriteState_Anim &state, float time_passed);
+    };
 } //ns
 
 #endif

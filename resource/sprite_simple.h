@@ -22,40 +22,44 @@
 
 #include "sprite.h"
 
-namespace Res
-{
-	class SpriteState_Simple : public SpriteState
-	{
-		virtual void Update(float time_passed) {}
-		virtual void Rewind() {}
+namespace Res {
+    class SpriteState_Simple : public SpriteState {
+        void Update(float time_passed) override {}
 
-		virtual void SetTrack(const std::string &track) {}
-		virtual const std::string &GetTrack() { static std::string d("default"); return d; }
+        void Rewind() override {}
 
-		virtual bool IsFinished() { return false; } // a still sprite continues to display forever by definition
+        void SetTrack(const std::string &track) override {}
 
-		virtual void Save(CLSerializer &S) {}
-		virtual void Load(CLSerializer &S) {}
-	};
+        const std::string &GetTrack() override {
+            static std::string d("default");
+            return d;
+        }
 
-	// A simple sprite with one frame only
-	// (Just a wrapper around the Image resource)
-	class Sprite_Simple : public Sprite
-	{
-	public:
-		Sprite_Simple(const Resource::ID &id);
-		virtual ~Sprite_Simple();
+        bool IsFinished() override { return false; } // a still sprite continues to display forever by definition
 
-		virtual SpriteState *CreateSpriteState();
-		virtual void Draw(int x, int y, SpriteState *state, SpriteVisual *visual);
-		virtual bool HasTrack(const std::string &id) { return id == "default"; }
+        void Save(CLSerializer &S) override {}
 
-	private:
-		virtual void Load();
-		virtual void Unload();
+        void Load(CLSerializer &S) override {}
+    };
 
-		class Image *image;
-	};
+    // A simple sprite with one frame only
+    // (Just a wrapper around the Image resource)
+    class Sprite_Simple : public Sprite {
+    public:
+        explicit Sprite_Simple(const Resource::ID &id);
+        ~Sprite_Simple() override;
+
+        SpriteState *CreateSpriteState() override;
+
+        void Draw(int x, int y, SpriteState *state, SpriteVisual *visual) override;
+        bool HasTrack(const std::string &id) override { return id == "default"; }
+
+    private:
+        void Load() override;
+        void Unload() override;
+
+        class Image *image;
+    };
 } //ns
 
 #endif

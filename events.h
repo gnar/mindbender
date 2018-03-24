@@ -27,13 +27,12 @@
 #include <list>
 #include <map>
 
-class EventHandler
-{
+class EventHandler {
 public:
-	// CONSTRUCTOR/DESTRUCTOR //////////////////////////////////////
-	EventHandler();
-	EventHandler(const std::string &event_class, const std::string &event_name);
-	~EventHandler();
+    // CONSTRUCTOR/DESTRUCTOR //////////////////////////////////////
+    EventHandler();
+    EventHandler(const std::string &event_class, const std::string &event_name);
+    ~EventHandler();
 
 	// MODIFY MATCHING EVENT ARGUMENTS /////////////////////////////
 	void SetArgumentCount(size_t argc);
@@ -41,85 +40,84 @@ public:
 	void SetArgument(size_t n_arg);
 	void SetFunction(CLValue func);
 
-	// CHECK IF A PARAMETER SET MATCHES ////////////////////////////
-	const std::string &GetName() { return event_name; }
-	const std::string &GetClass() { return event_class; }
-	size_t GetArgumentCount() { return args.size(); }
-	unsigned Match(const std::string &name, std::vector<CLValue> &values); // returns a score, or 0 if no match
+    // CHECK IF A PARAMETER SET MATCHES ////////////////////////////
+    const std::string &GetName() { return event_name; }
+    const std::string &GetClass() { return event_class; }
+    size_t GetArgumentCount() { return args.size(); }
 
-	// EXECUTE EVENT ///////////////////////////////////////////////
-	CLValue Execute(CLContext *context, std::vector<CLValue> &values); // execute, permitting multithreading
+    unsigned Match(const std::string &name, std::vector<CLValue> &values); // returns a score, or 0 if no match
 
-	// GARBAGE COLLECTION
-	void MarkObjects();
+    // EXECUTE EVENT ///////////////////////////////////////////////
+    CLValue Execute(CLContext *context, std::vector<CLValue> &values); // execute, permitting multithreading
 
-	// SAVE & LOAD /////////////////////////////////////////////////
-	void Save(CLSerialSaver &S);
-	void Load(CLSerialLoader &S);
+    // GARBAGE COLLECTION
+    void MarkObjects();
 
-	// PRIVATE MEMBERS /////////////////////////////////////////////
+    // SAVE & LOAD /////////////////////////////////////////////////
+    void Save(CLSerialSaver &S);
+    void Load(CLSerialLoader &S);
+
+    // PRIVATE MEMBERS /////////////////////////////////////////////
 private:
-	std::string event_class;
-	std::string event_name;
-	CLValue event_function;
+    std::string event_class;
+    std::string event_name;
+    CLValue event_function;
 
-	struct EventArgument
-	{
-		EventArgument() : wildcard(true) {}
-		~EventArgument() {}
+    struct EventArgument {
+        EventArgument() : wildcard(true) {}
+        ~EventArgument() = default;
 
-		bool wildcard;
-		CLValue value; // must be null if 'wildcard'
-	};
-	std::vector<EventArgument> args;
+        bool wildcard;
+        CLValue value; // must be null if 'wildcard'
+    };
+
+    std::vector<EventArgument> args;
 };
 
-class EventManager
-{
+class EventManager {
 public:
-	// CONSTRUCTOR/DESTRUCTOR //////////////////////////////////////
-	EventManager();
-	~EventManager();
+    // CONSTRUCTOR/DESTRUCTOR //////////////////////////////////////
+    EventManager();
+    ~EventManager();
 
-	void Clear();
-	void Update(float dt); // each frame
+    void Clear();
+    void Update(float dt); // each frame
 
-	// ADD EVENT HANDLERS //////////////////////////////////////////
-	void AddEventHandler(EventHandler handler);
+    // ADD EVENT HANDLERS //////////////////////////////////////////
+    void AddEventHandler(EventHandler handler);
 
-	// SUSPEND/RESUME EVENTS BY EVENT CLASS ////////////////////////
-	void SuspendEvents(const std::string &event_class);
-	void ResumeEvents(const std::string &event_class);
-	bool IsSuspended(const std::string &event_class);
+    // SUSPEND/RESUME EVENTS BY EVENT CLASS ////////////////////////
+    void SuspendEvents(const std::string &event_class);
+    void ResumeEvents(const std::string &event_class);
+    bool IsSuspended(const std::string &event_class);
 
-	// SIGNAL EVENTS ///////////////////////////////////////////////
-	CLValue Signal(CLContext *context, const std::string &event_name, std::vector<CLValue> &values);
+    // SIGNAL EVENTS ///////////////////////////////////////////////
+    CLValue Signal(CLContext *context, const std::string &event_name, std::vector<CLValue> &values);
 
-	// GARBAGE COLLECTION //////////////////////////////////////////
-	void MarkObjects();
+    // GARBAGE COLLECTION //////////////////////////////////////////
+    void MarkObjects();
 
-	// SAVE & LOAD /////////////////////////////////////////////////
-	void Save(CLSerialSaver &S);
-	void Load(CLSerialLoader &S);
-	
-	// PRIVATE MEMBERS /////////////////////////////////////////////
+    // SAVE & LOAD /////////////////////////////////////////////////
+    void Save(CLSerialSaver &S);
+    void Load(CLSerialLoader &S);
+
+    // PRIVATE MEMBERS /////////////////////////////////////////////
 private:
-	typedef std::list<EventHandler> EventHandlerList;
-	EventHandlerList handlers;
+    typedef std::list<EventHandler> EventHandlerList;
+    EventHandlerList handlers;
 
-	void AddEventClassEntry(const std::string &event_class);
+    void AddEventClassEntry(const std::string &event_class);
 
-	struct EventClass
-	{
-		EventClass() : suspended(0) {}
-		~EventClass() {}
+    struct EventClass {
+        EventClass() : suspended(0) {}
+        ~EventClass() = default;
 
-		int suspended; // event class disabled? (reference counted)
-		CLValue thread; // currently running event handler.
-	};
+        int suspended; // event class disabled? (reference counted)
+        CLValue thread; // currently running event handler.
+    };
 
-	typedef std::map<std::string, EventClass> EventClassMap;
-	EventClassMap classes;
+    typedef std::map<std::string, EventClass> EventClassMap;
+    EventClassMap classes;
 };
 
 #endif

@@ -20,40 +20,32 @@
 #include "object/tableobject.h"
 
 TableObject::TableObject(CLContext *context)
-	: CLUserData(context), table(new CLTable(context))
-{
+        : CLUserData(context), table(new CLTable(context)) {
 }
 
-TableObject::~TableObject()
-{
+TableObject::~TableObject() = default;
+
+void TableObject::set(CLValue &key, CLValue &val) {
+    GET_TABLE(table)->set(key, val);
 }
 
-void TableObject::set(CLValue &key, CLValue &val)
-{
-	GET_TABLE(table)->set(key, val);
+bool TableObject::get(CLValue &key, CLValue &val) {
+    return GET_TABLE(table)->get(key, val);
 }
 
-bool TableObject::get(CLValue &key, CLValue &val)
-{
-	return GET_TABLE(table)->get(key, val);
-}
-
-void TableObject::markReferenced()
-{
-	table.markObject();
+void TableObject::markReferenced() {
+    table.markObject();
 }
 
 //////////////////////////////////////////////////////////////////
 // SAVE & LOAD STATE                                            //
 //////////////////////////////////////////////////////////////////
 
-void TableObject::Save(CLSerialSaver &S, TableObject *tobj)
-{
-	CLValue::save(S, tobj->table);
+void TableObject::Save(CLSerialSaver &S, TableObject *tobj) {
+    CLValue::save(S, tobj->table);
 }
 
-void TableObject::Load(CLSerialLoader &S, TableObject *tobj)
-{
-	tobj->table = CLValue::load(S);
+void TableObject::Load(CLSerialLoader &S, TableObject *tobj) {
+    tobj->table = CLValue::load(S);
 }
 

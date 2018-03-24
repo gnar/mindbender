@@ -22,38 +22,35 @@
 
 #include "resource.h"
 
-namespace Res
-{
-	// Contains info on how to display font
-	// (Tinting, Blending, ...)
-	class FontVisual
-	{
-	public:
-		int r, g, b, a; // [0..255]
-	};
+namespace Res {
+    // Contains info on how to display font
+    // (Tinting, Blending, ...)
+    class FontVisual {
+    public:
+        int r, g, b, a; // [0..255]
+    };
 
-	class Font : public Resource
-	{
-	public:
-		Font(const Resource::ID &id);
-		virtual ~Font();
+    class Font : public Resource {
+    public:
+        explicit Font(const Resource::ID &id);
+        virtual ~Font();
 
-		virtual void Draw(int x, int y, const std::string&text, FontVisual *visual = 0) = 0;
-		virtual void DrawCenter(int x, int y, const std::string &text, FontVisual *visual = 0);
-		virtual void DrawBoxed(int x, int y, int width, const std::string &str, FontVisual *visual = 0);
-		
-		virtual int GetHeight() = 0; // get height in pixels
-		virtual int GetWidth(char ch) = 0; // get width in pixels
-		
-		virtual int GetSpaceWidth() { return 1; } // get space between characters 
-		virtual int GetWidth(const std::string &text);
+        virtual void Draw(int x, int y, const std::string &text, FontVisual *visual = nullptr) = 0;
+        virtual void DrawCenter(int x, int y, const std::string &text, FontVisual *visual = nullptr);
+        virtual void DrawBoxed(int x, int y, int width, const std::string &str, FontVisual *visual = nullptr);
 
-	private:
-		virtual void Load() = 0;
-		virtual void Unload() = 0;
-	};
+        virtual int GetHeight() = 0; // get height in pixels
+        virtual int GetWidth(char ch) = 0; // get width in pixels
 
-	Font *CreateFontResource(const Resource::ID &id);
+        virtual int GetSpaceWidth() { return 1; } // get space between characters
+        virtual int GetWidth(const std::string &text);
+
+    private:
+        virtual void Load() = 0;
+        virtual void Unload() = 0;
+    };
+
+    Font *CreateFontResource(const Resource::ID &id);
 } //ns
 
 #endif

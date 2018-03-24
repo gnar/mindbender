@@ -39,14 +39,14 @@ struct Vertex
 class PolygonPath
 {
 public:
-        PolygonPath();
-        void clear();
+	PolygonPath();
+    void clear();
 
-        std::vector<std::string> getPolygonNames() const;
+	std::vector<std::string> getPolygonNames() const;
 	std::string suggestPolygonName() const; // returns a free name: "Polygon00" etc.
 
 	int getPolygon(const std::string &name) const;
-        bool hasPolygon(const std::string &name) const;
+	bool hasPolygon(const std::string &name) const;
 
 	void select(int poly, int outline = 0, int point = 0);
 
@@ -90,16 +90,17 @@ private:
 
 		struct PathGraphNode
 		{
-
 			int outline, node;
 			std::vector<PathGraphEdge> edges;
 		};
+
 		mutable std::vector<PathGraphNode> path_graph;
 		mutable bool valid_pathgraph; // Path graph is valid/up to date ??
-        };
+	};
+
 	typedef std::vector<Polygon> PolygonField;
 
-        PolygonField polys;
+	PolygonField polys;
 
 	void addPathGraphEdge(int polygon, int pg_node1, int pg_node2) const;
 	void calculateVisibilityGraph(int polygon) const;
@@ -111,8 +112,6 @@ private:
 	std::vector<Polygon::PathGraphEdge> getPointVisibility(int polygon, int X, int Y) const; // helper for findPath
 
 	int sel_poly, sel_outline, sel_vertice;
-
-
 };
 
 #endif

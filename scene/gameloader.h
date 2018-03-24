@@ -28,26 +28,24 @@
 #include <string>
 #include <list>
 
-class GameLoader : private SceneParser
-{
+class GameLoader : private SceneParser {
 public:
-	GameLoader(CLContext *context, const std::string &fn);
-	~GameLoader();
+    GameLoader(CLContext *context, const std::string &fn);
+    ~GameLoader() override;
 
-	void Parse();
+    void Parse();
+    void ParseScenes();
 
-	void RunPrologScripts();
-	void ParseScenes();
-	void RunSceneScripts();
-	void RunStartScripts();
+    void RunPrologScripts();
+    void RunSceneScripts();
+    void RunStartScripts();
 
 private:
-	CLContext *context;
-	
-	std::list<std::string> prolog_scripts;
-	std::list<std::string> run_scripts;
-	std::list<class SceneLoader*> scene_loaders;
+    CLContext *context;
+
+    std::list<std::string> prolog_scripts;
+    std::list<std::string> run_scripts;
+    std::list<class SceneLoader *> scene_loaders;
 };
 
 #endif
-

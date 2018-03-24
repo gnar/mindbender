@@ -23,35 +23,26 @@
 #include "sprite_simple.h"
 #include "sprite_anim.h"
 
-namespace Res
-{
-	Sprite::Sprite(const Resource::ID &id) : Resource(Resource::SPRITE, id)
-	{
-	}
+namespace Res {
+    Sprite::Sprite(const Resource::ID &id) : Resource(Resource::SPRITE, id) {
+    }
 
-	Sprite::~Sprite()
-	{
-	}
+    Sprite *CreateSpriteResource(const Resource::ID &id) {
+        if (!Manager.ExistsFile(id)) return nullptr; // file not found
 
-	Sprite *CreateSpriteResource(const Resource::ID &id)
-	{
-		if (!Manager.ExistsFile(id)) return 0; // file not found
+        Sprite *S = nullptr; // return value
 
-		Sprite *S = 0; // return value
+        // Choose between sprite implementations by file extension
+        std::string ext = GetFileExtension(id);
+        if (ext == "jpg" || ext == "png") {
+            return new Sprite_Simple(id);
+        }
 
-		// Choose between sprite implementations by file extension
-		std::string ext = GetFileExtension(id);
-		if (ext == "jpg" || ext == "png")
-		{
-			return new Sprite_Simple(id);
-		}
+        if (ext == "spr" || ext == "sprite") {
+            return new Sprite_Anim(id);
+        }
 
-		if (ext == "spr" || ext == "sprite")
-		{
-			return new Sprite_Anim(id);
-		}
-
-		return S;
-	}
+        return S;
+    }
 } //ns
 

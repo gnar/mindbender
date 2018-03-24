@@ -24,53 +24,48 @@
 
 #include <cl2/cl2.h>
 
-namespace Res
-{
-	// Abstract; Contains and modifies sprite animation state
-	class SpriteState
-	{
-	public:
-		SpriteState() {}
-		virtual ~SpriteState() {}
-		
-		virtual void Update(float time_passed) = 0;
-		virtual void Rewind() = 0;
+namespace Res {
+    // Abstract; Contains and modifies sprite animation state
+    class SpriteState {
+    public:
+        SpriteState() = default;
+        virtual ~SpriteState() = default;
 
-		virtual void SetTrack(const std::string &track) = 0;
-		virtual const std::string &GetTrack() = 0;
+        virtual void Update(float time_passed) = 0;
+        virtual void Rewind() = 0;
 
-		virtual bool IsFinished() = 0;
+        virtual void SetTrack(const std::string &track) = 0;
+        virtual const std::string &GetTrack() = 0;
 
-		virtual void Save(CLSerializer &S) = 0;
-		virtual void Load(CLSerializer &S) = 0;
-	};
+        virtual bool IsFinished() = 0;
 
-	// Contains info on how to display sprite
-	// (Tinting, Blending, ...)
-	class SpriteVisual
-	{
-	public:
-		float scale;	
-		//float R, G, B, A; // elem [0,1]
-	};
+        virtual void Save(CLSerializer &S) = 0;
+        virtual void Load(CLSerializer &S) = 0;
+    };
 
-	class Sprite : public Resource
-	{
-	public:
-		Sprite(const Resource::ID &id);
-		virtual ~Sprite();
+    // Contains info on how to display sprite
+    // (Tinting, Blending, ...)
+    class SpriteVisual {
+    public:
+        float scale;
+        //float R, G, B, A; // elem [0,1]
+    };
 
-		virtual SpriteState *CreateSpriteState() = 0;
-		virtual void Draw(int x, int y, SpriteState *state, SpriteVisual *visual = 0) = 0;
+    class Sprite : public Resource {
+    public:
+        explicit Sprite(const Resource::ID &id);
+        virtual ~Sprite() = default;
 
-		virtual bool HasTrack(const std::string &id) = 0;
+        virtual SpriteState *CreateSpriteState() = 0;
+        virtual void Draw(int x, int y, SpriteState *state, SpriteVisual *visual = nullptr) = 0;
+        virtual bool HasTrack(const std::string &id) = 0;
 
-	private:
-		virtual void Load() = 0;
-		virtual void Unload() = 0;
-	};
+    private:
+        virtual void Load() = 0;
+        virtual void Unload() = 0;
+    };
 
-	Sprite *CreateSpriteResource(const Resource::ID &id);
+    Sprite *CreateSpriteResource(const Resource::ID &id);
 } //ns
 
 #endif

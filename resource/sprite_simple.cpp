@@ -21,45 +21,35 @@
 #include "manager.h"
 #include "image.h"
 
-#include <assert.h>
+namespace Res {
+    Sprite_Simple::Sprite_Simple(const Resource::ID &id) : Sprite(id) {
+        image = Manager.GetImage(id);
+        assert(image);
+    }
 
-namespace Res
-{
-	Sprite_Simple::Sprite_Simple(const Resource::ID &id) : Sprite(id)
-	{
-		image = Manager.GetImage(id);
-		assert(image);
-	}
+    Sprite_Simple::~Sprite_Simple() = default;
 
-	Sprite_Simple::~Sprite_Simple()
-	{
-	}
+    void Sprite_Simple::Load() {
+        loaded = true;
+    }
 
-	void Sprite_Simple::Load()
-	{
-		loaded = true;
-	}
+    void Sprite_Simple::Unload() {
+        loaded = false;
+    }
 
-	void Sprite_Simple::Unload()
-	{
-		loaded = false;
-	}
+    SpriteState *Sprite_Simple::CreateSpriteState() {
+        return new SpriteState_Simple();
+    }
 
-	SpriteState *Sprite_Simple::CreateSpriteState()
-	{
-		return new SpriteState_Simple();
-	}
+    void Sprite_Simple::Draw(int x, int y, SpriteState *state, SpriteVisual *visual) {
+        DCDraw::Transform t;
+        t.SetTrans(x, y);
+        if (visual) t.SetScale(visual->scale, visual->scale);
 
-	void Sprite_Simple::Draw(int x, int y, SpriteState *state, SpriteVisual *visual)
-	{
-		DCDraw::Transform t;
-		t.SetTrans(x, y);
-		if (visual) t.SetScale(visual->scale, visual->scale);
-		
-		image->Lock();
-		image->GetTexture()->Draw(t);
-		image->Unlock();
-	}
+        image->Lock();
+        image->GetTexture()->Draw(t);
+        image->Unlock();
+    }
 } //ns
 
 

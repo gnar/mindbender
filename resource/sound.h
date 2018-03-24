@@ -27,46 +27,43 @@
 struct FMOD_SOUND;
 struct FMOD_CHANNEL;
 
-namespace Res
-{
-	class SoundContext 
-	{
-	public:
-		SoundContext(FMOD_SOUND *snd) : is_playing(false), sound(snd), channel(0) {}
-		~SoundContext() {}
-		
-		void Play();
-		void Stop();
-		void SetVolume(int vol);  // 0..100
-		void SetPanning(int pan); // -100..0..+100
-		void SetLoopMode(int lm);
+namespace Res {
+    class SoundContext {
+    public:
+        explicit SoundContext(FMOD_SOUND *snd) : is_playing(false), sound(snd), channel(nullptr) {}
+        ~SoundContext() = default;
 
-	private:
-		bool is_playing;
-		FMOD_SOUND *sound;
-		FMOD_CHANNEL *channel;
-	};
+        void Play();
+        void Stop();
 
-	class Sound : public Resource
-	{
-	public:
-		Sound(const Resource::ID &id, bool stream);
-		virtual ~Sound();
+        void SetVolume(int vol);  // 0..100
+        void SetPanning(int pan); // -100..0..+100
+        void SetLoopMode(int lm);
 
-		virtual SoundContext *CreateContext()
-		{
-			return new SoundContext(sound);
-		}
+    private:
+        bool is_playing;
+        FMOD_SOUND *sound;
+        FMOD_CHANNEL *channel;
+    };
 
-	private:
-		virtual void Load();
-		virtual void Unload();
+    class Sound : public Resource {
+    public:
+        Sound(const Resource::ID &id, bool stream);
+        virtual ~Sound();
 
-		bool stream;
-		FMOD_SOUND *sound;
-	};
+        virtual SoundContext *CreateContext() {
+            return new SoundContext(sound);
+        }
 
-	Sound *CreateSoundResource(const Resource::ID &id);
+    private:
+        virtual void Load();
+        virtual void Unload();
+
+        bool stream;
+        FMOD_SOUND *sound;
+    };
+
+    Sound *CreateSoundResource(const Resource::ID &id);
 }
 
 #endif

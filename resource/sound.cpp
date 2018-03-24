@@ -22,110 +22,97 @@
 
 //#include <fmod.h>
 //#include <fmod_errors.h>
-#include "../sound.h"
 
-#include <iostream>
 using namespace std;
 
-namespace Res
-{
-	void SoundContext::SetVolume(int vol)
-	{
-		// vol in [0..100]
-		float fmod_vol = float(vol) / 100.0f;
-		//FMOD_Channel_SetVolume(channel, fmod_vol);
-	}
-	
-	void SoundContext::SetPanning(int pan)
-	{
-		// pan in [-100..0..+100]
-		float fmod_pan = float(pan) / 100.0f;
-		//FMOD_Channel_SetPan(channel, fmod_pan);
-	}
-	
-	void SoundContext::SetLoopMode(int lm)
-	{
-		// lm in {0,1}
-		/*FMOD_MODE mode = 0;
-		switch (lm)
-		{
-			case 0: mode |= FMOD_LOOP_OFF; break;
-			case 1: mode |= FMOD_LOOP_NORMAL; break;
-			case 2: mode |= FMOD_LOOP_BIDI; break;
-		}
-		FMOD_Channel_SetMode(channel, mode);*/
-	}
+namespace Res {
+    void SoundContext::SetVolume(int vol) {
+        // vol in [0..100]
+        float fmod_vol = float(vol) / 100.0f;
+        //FMOD_Channel_SetVolume(channel, fmod_vol);
+    }
 
-	void SoundContext::Play()
-	{
-		if (is_playing) Stop();
-		
-		/*FMOD_RESULT result = FMOD_System_PlaySound(SoundSystem(), FMOD_CHANNEL_FREE, sound, true, &channel);
-		FMOD_Channel_SetPaused(channel, false);*/
-		is_playing = true;
-	}
+    void SoundContext::SetPanning(int pan) {
+        // pan in [-100..0..+100]
+        float fmod_pan = float(pan) / 100.0f;
+        //FMOD_Channel_SetPan(channel, fmod_pan);
+    }
 
-	void SoundContext::Stop()
-	{
-		if (!is_playing) return;
-		
-		//FMOD_Channel_Stop(channel);
-	}
+    void SoundContext::SetLoopMode(int lm) {
+        // lm in {0,1}
+        /*FMOD_MODE mode = 0;
+        switch (lm)
+        {
+            case 0: mode |= FMOD_LOOP_OFF; break;
+            case 1: mode |= FMOD_LOOP_NORMAL; break;
+            case 2: mode |= FMOD_LOOP_BIDI; break;
+        }
+        FMOD_Channel_SetMode(channel, mode);*/
+    }
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////
+    void SoundContext::Play() {
+        if (is_playing) Stop();
 
-	Sound::Sound(const Resource::ID &id, bool stream) : Resource(Resource::SOUND, id), stream(stream), sound(0)
-	{
-		loaded = false;
-	}
-	
-	Sound::~Sound()
-	{
-		Unload();
-	}
+        /*FMOD_RESULT result = FMOD_System_PlaySound(SoundSystem(), FMOD_CHANNEL_FREE, sound, true, &channel);
+        FMOD_Channel_SetPaused(channel, false);*/
+        is_playing = true;
+    }
 
-	void Sound::Load()
-	{
-		if (loaded) return;
-		/*if (stream) {
-			FMOD_RESULT result = FMOD_System_CreateStream(SoundSystem(), GetID().c_str(), FMOD_DEFAULT, 0, &sound); // FMOD_CREATECOMPRESSEDSAMPLE??!
-		} else {
-			FMOD_RESULT result = FMOD_System_CreateStream(SoundSystem(), GetID().c_str(), FMOD_DEFAULT, 0, &sound);
-		}*/
-		loaded = true;
-	}
+    void SoundContext::Stop() {
+        if (!is_playing) return;
 
-	void Sound::Unload()
-	{
-		if (!loaded) return;
+        //FMOD_Channel_Stop(channel);
+    }
 
-		/*FMOD_RESULT result = FMOD_Sound_Release(sound); sound = 0;
-		if (result != FMOD_OK) cerr << "Could not release FMOD sound object!" << endl;
-		*/
+    //////////////////////////////////////////////////////////////////////////////////////////////////
 
-		loaded = false;
-	}
+    Sound::Sound(const Resource::ID &id, bool stream) : Resource(Resource::SOUND, id), stream(stream), sound(nullptr) {
+        loaded = false;
+    }
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	Sound *CreateSoundResource(const Resource::ID &id)
-	{
-		if (!Manager.ExistsFile(id)) return 0; // file not found
+    Sound::~Sound() {
+        Unload();
+    }
 
-		// Set sound streamed or buffered
-		/*std::string ext = GetFileExtension(id);
-		if (ext == "wav")
-		{
-			return new Sound(id, false); // buffered
-		}
+    void Sound::Load() {
+        if (loaded) return;
+        /*if (stream) {
+            FMOD_RESULT result = FMOD_System_CreateStream(SoundSystem(), GetID().c_str(), FMOD_DEFAULT, 0, &sound); // FMOD_CREATECOMPRESSEDSAMPLE??!
+        } else {
+            FMOD_RESULT result = FMOD_System_CreateStream(SoundSystem(), GetID().c_str(), FMOD_DEFAULT, 0, &sound);
+        }*/
+        loaded = true;
+    }
 
-		if (ext == "ogg" || ext == "mp3")
-		{
-			return new Sound(id, true); // streamed
-		}*/
+    void Sound::Unload() {
+        if (!loaded) return;
 
-		return 0; // unknown file extension
-	}
+        /*FMOD_RESULT result = FMOD_Sound_Release(sound); sound = 0;
+        if (result != FMOD_OK) cerr << "Could not release FMOD sound object!" << endl;
+        */
+
+        loaded = false;
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+
+    Sound *CreateSoundResource(const Resource::ID &id) {
+        if (!Manager.ExistsFile(id)) return nullptr; // file not found
+
+        // Set sound streamed or buffered
+        /*std::string ext = GetFileExtension(id);
+        if (ext == "wav")
+        {
+            return new Sound(id, false); // buffered
+        }
+
+        if (ext == "ogg" || ext == "mp3")
+        {
+            return new Sound(id, true); // streamed
+        }*/
+
+        return nullptr; // unknown file extension
+    }
 
 } //ns
 

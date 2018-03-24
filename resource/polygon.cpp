@@ -22,83 +22,69 @@
 
 #include "loadxml.h"
 
-#include <cstdio>
-
 #include <memory>
-#include <iostream>
+
 using namespace std;
 
-namespace Res
-{
-	Polygon::Polygon(const Resource::ID &id) : Resource(Resource::POLYGON, id)
-	{
-		LoadXML();
-	}
+namespace Res {
+    Polygon::Polygon(const Resource::ID &id) : Resource(Resource::POLYGON, id) {
+        LoadXML();
+    }
 
-	Polygon::~Polygon()
-	{
-		Unload();
-	}
+    Polygon::~Polygon() {
+        Unload();
+    }
 
-	void Polygon::Load()
-	{
-		loaded = true;	
-	}
+    void Polygon::Load() {
+        loaded = true;
+    }
 
-	void Polygon::Unload()
-	{
-		loaded = false;
-	}
+    void Polygon::Unload() {
+        loaded = false;
+    }
 
-	void Polygon::LoadXML()
-	{
-		std::unique_ptr<TiXmlDocument> doc(LoadXMLDocument(Manager.OpenFile(GetID())));
+    void Polygon::LoadXML() {
+        std::unique_ptr<TiXmlDocument> doc(LoadXMLDocument(Manager.OpenFile(GetID())));
 
-		TiXmlElement *polygon_elem = doc->FirstChildElement("polygon");
-		TiXmlElement *vertex_elem  = polygon_elem ? polygon_elem->FirstChildElement("vertex") : 0;
+        TiXmlElement *polygon_elem = doc->FirstChildElement("polygon");
+        TiXmlElement *vertex_elem = polygon_elem ? polygon_elem->FirstChildElement("vertex") : nullptr;
 
-		// TODO: Support holes, multiple contours
-		path.addPolygon(path.suggestPolygonName());
+        // TODO: Support holes, multiple contours
+        path.addPolygon(path.suggestPolygonName());
 
-		while (vertex_elem)
-		{
-			Vertex V;
-			const char *pos_attr = vertex_elem->Attribute("pos");
-			if (pos_attr && 2 == sscanf(pos_attr, "%i,%i", &V.x, &V.y))
-			{
-				path.addVertex(V);
-			} else {
-				cout << "Ignoring invalid <vertex ...>" << endl;
-			}
+        while (vertex_elem) {
+            Vertex V;
+            const char *pos_attr = vertex_elem->Attribute("pos");
+            if (pos_attr && 2 == sscanf(pos_attr, "%i,%i", &V.x, &V.y)) {
+                path.addVertex(V);
+            } else {
+                cout << "Ignoring invalid <vertex ...>" << endl;
+            }
 
-			vertex_elem = vertex_elem->NextSiblingElement("vertex");
-		}
+            vertex_elem = vertex_elem->NextSiblingElement("vertex");
+        }
 
-		path.adjustOrientation(); // make clock-wise order
-	}
+        path.adjustOrientation(); // make clock-wise order
+    }
 
-	bool Polygon::Hit(int x, int y) 
-	{
-		int polygon;
-		return path.findPolygonAt(polygon, x, y);
-	}
+    bool Polygon::Hit(int x, int y) {
+        int polygon;
+        return path.findPolygonAt(polygon, x, y);
+    }
 
-	std::list<Vertex> Polygon::FindPath(Vertex start, Vertex goal) 
-	{
-		return path.findPath(start.x, start.y, goal.x, goal.y);
-	}
+    std::list<Vertex> Polygon::FindPath(Vertex start, Vertex goal) {
+        return path.findPath(start.x, start.y, goal.x, goal.y);
+    }
 
-	Polygon *CreatePolygonResource(const Resource::ID &id)
-	{
-		if (!Manager.ExistsFile(id)) return 0; // file not found
+    Polygon *CreatePolygonResource(const Resource::ID &id) {
+        if (!Manager.ExistsFile(id)) return nullptr; // file not found
 
-		std::string ext = GetFileExtension(id);
-		if (ext == "polygon")
-		{
-			return new Polygon(id);
-		}
+        std::string ext = GetFileExtension(id);
+        if (ext == "polygon") {
+            return new Polygon(id);
+        }
 
-		return 0;
-	}
+        return nullptr;
+    }
 } //ns
 

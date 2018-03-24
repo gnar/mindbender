@@ -25,27 +25,24 @@
 
 #include <list>
 
-namespace Res
-{
-	class Polygon : public Resource
-	{
-	public:
-		Polygon(const Resource::ID &id);
-		virtual ~Polygon();
+namespace Res {
+    class Polygon : public Resource {
+    public:
+        explicit Polygon(const Resource::ID &id);
+        ~Polygon() override;
 
-		bool Hit(int x, int y);
-		std::list<Vertex> FindPath(Vertex start, Vertex goal);
+        bool Hit(int x, int y);
+        std::list<Vertex> FindPath(Vertex start, Vertex goal);
 
-	private:
-		void LoadXML();
+    private:
+        void LoadXML();
+        void Load() override;
+        void Unload() override;
 
-		virtual void Load();
-		virtual void Unload();
+        PolygonPath path;
+    };
 
-		PolygonPath path;
-	};
-
-	Polygon *CreatePolygonResource(const Resource::ID &id);
+    Polygon *CreatePolygonResource(const Resource::ID &id);
 } //ns
 
 #endif

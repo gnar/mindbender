@@ -22,85 +22,84 @@
 
 #include "cl2/cl2.h"
 
-class Camera
-{
+class Camera {
 public:
-	// CONSTRUCTOR/DESCTRUCTOR //////////////////////////////////////////////
-	Camera();
-	~Camera();
+    // CONSTRUCTOR/DESCTRUCTOR //////////////////////////////////////////////
+    Camera();
+    ~Camera();
 
-	void Clear();
+    void Clear();
 
-	// SET CAMERA-MODE/-PARAMETERS //////////////////////////////////////////
-	void SetScrollMode(); // enable scroll mode
-	void SetSnapMode(); // enable snap mode
-	void SetScrollSpeed(int spd, int accel = 1) { scroll_speed = spd; scroll_accel = accel; }
+    // SET CAMERA-MODE/-PARAMETERS //////////////////////////////////////////
+    void SetScrollMode(); // enable scroll mode
+    void SetSnapMode(); // enable snap mode
+    void SetScrollSpeed(int spd, int accel = 1) {
+        scroll_speed = spd;
+        scroll_accel = accel;
+    }
 
-	// SET CAMERA TARGET ////////////////////////////////////////////////////
-	void SetTarget(CLValue room, int x, int y); // set full position
-	void SetTarget(int x, int y); // set position within same room
-	void SetTarget(CLValue item); // seek item
+    // SET CAMERA TARGET ////////////////////////////////////////////////////
+    void SetTarget(CLValue room, int x, int y); // set full position
+    void SetTarget(int x, int y); // set position within same room
+    void SetTarget(CLValue item); // seek item
 
-	// UPDATE, DRAW CAMERA CONTENTS /////////////////////////////////////////
-	void Update(float dt);
-	void Draw();
+    // UPDATE, DRAW CAMERA CONTENTS /////////////////////////////////////////
+    void Update(float dt);
 
-	// GET CAMERA INFO //////////////////////////////////////////////////////
-	CLValue GetRoom() { return cur_room; }
-	int GetOffsetX() { return static_cast<int>(cur_x); }
-	int GetOffsetY() { return static_cast<int>(cur_y); }
+    void Draw();
 
-	void GetCameraWindow(int &x, int &y, int &width, int &height);
-	void SetCameraWindow(int x, int y, int width, int height);
+    // GET CAMERA INFO //////////////////////////////////////////////////////
+    CLValue GetRoom() { return cur_room; }
 
-	bool ScreenToRoomCoordinates(int &X, int &Y); // returns true, iff result is currently visible (inside camera window)
-	void RoomToScreenCoordinates(int &X, int &Y);
+    int GetOffsetX() { return static_cast<int>(cur_x); }
+    int GetOffsetY() { return static_cast<int>(cur_y); }
 
-	// GARBAGE COLLECTING ///////////////////////////////////////////////////
-	void markObjects();
+    void GetCameraWindow(int &x, int &y, int &width, int &height);
+    void SetCameraWindow(int x, int y, int width, int height);
 
-	// SAVE & LOAD STATE ////////////////////////////////////////////////////
-	void Save(CLSerialSaver &S);
-	void Load(CLSerialLoader &S);
+    bool ScreenToRoomCoordinates(int &X, int &Y); // returns true, iff result is currently visible (inside camera window)
+    void RoomToScreenCoordinates(int &X, int &Y);
 
-	// PRIVATE MEMBERS //////////////////////////////////////////////////////
+    // GARBAGE COLLECTING ///////////////////////////////////////////////////
+    void markObjects();
+
+    // SAVE & LOAD STATE ////////////////////////////////////////////////////
+    void Save(CLSerialSaver &S);
+    void Load(CLSerialLoader &S);
+
+    // PRIVATE MEMBERS //////////////////////////////////////////////////////
 private:
-	enum CameraMode
-	{
-		MANUAL,
-		SEEK, // seek an item/actor
-	};
-	
-	CameraMode camera_mode;
+    enum CameraMode {
+        MANUAL,
+        SEEK, // seek an item/actor
+    };
 
-	enum ScrollMode
-	{
-		SNAP,
-		SCROLL,
-	};
-	ScrollMode scroll_mode;
+    CameraMode camera_mode;
 
-	// current camera coordinates
-	CLValue cur_room; // current room
-	float cur_x, cur_y; // current camera position within room
+    enum ScrollMode {
+        SNAP,
+        SCROLL,
+    };
+    ScrollMode scroll_mode;
 
-	// current camera destination
-	CLValue dest_room;
-	int dest_x, dest_y; // camera movement target
+    // current camera coordinates
+    CLValue cur_room; // current room
+    float cur_x, cur_y; // current camera position within room
 
-	CLValue seeked; // item/actor to seek, if camera_mode == SEEK
+    // current camera destination
+    CLValue dest_room;
+    int dest_x, dest_y; // camera movement target
 
-	// scroll speed and acceleration, for scroll_mode == SCROLL
-	int scroll_speed; // pixels/second
-	int scroll_accel; // additional speed factor per 1000 pixel of dest_xy-->cur_xy difference
+    CLValue seeked; // item/actor to seek, if camera_mode == SEEK
 
-	// camera area on screen
-	struct CameraWindow
-	{
-		int x, y, width, height; 
-	} window;
+    // scroll speed and acceleration, for scroll_mode == SCROLL
+    int scroll_speed; // pixels/second
+    int scroll_accel; // additional speed factor per 1000 pixel of dest_xy-->cur_xy difference
 
-
+    // camera area on screen
+    struct CameraWindow {
+        int x, y, width, height;
+    } window;
 };
 
 #endif

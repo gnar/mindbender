@@ -28,7 +28,6 @@
 
 namespace GeometryTools
 {
-
 	bool lineCollision( float x1, float y1, float x2, float y2, float X1, float Y1, float X2, float Y2)
 	{
 		float den  = (x2-x1)*(Y2-Y1) - (y2-y1)*(X2-X1);

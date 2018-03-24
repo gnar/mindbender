@@ -23,23 +23,22 @@
 #include "scenelexer.h"
 #include "cl2/cl2.h"
 
-class SceneParser
-{
+class SceneParser {
 public:
-	SceneParser(const std::string &fn);
-	virtual ~SceneParser();
+    explicit SceneParser(const std::string &fn);
+    virtual ~SceneParser();
 
 protected:
-	void lex();
-	void expect(SceneLexer::Token tok);
+    void lex();
+    void expect(SceneLexer::Token tok);
 
-	std::istream *input;
-	SceneLexer *lexer;
-	SceneLexer::Lexeme l;
+    std::istream *input;
+    SceneLexer *lexer;
+    SceneLexer::Lexeme l;
 
-	int         ParseInt();
-	std::string ParseString();
-	bool        ParseBoolean(); // true or false
+    int ParseInt();
+    std::string ParseString();
+    bool ParseBoolean(); // true or false
 };
 
 #endif

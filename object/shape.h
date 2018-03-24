@@ -31,85 +31,81 @@
 
 #define GET_SHAPE(v)           ((Shape*)(v).value.object)
 
-class Shape : public TableObject
-{
+class Shape : public TableObject {
 public:
-	Shape(CLContext *context);
-	virtual ~Shape();
+    explicit Shape(CLContext *context);
+    ~Shape() override;
 
-	typedef std::list<Vertex> Path;
+    typedef std::list<Vertex> Path;
 
-	virtual bool Hit(int x, int y) = 0;
-	virtual Path FindPath(Vertex start, Vertex goal) = 0;
-
-	virtual bool FindVertical(int x, int y, int range, int &y_result);
+    virtual bool Hit(int x, int y) = 0;
+    virtual Path FindPath(Vertex start, Vertex goal) = 0;
+    virtual bool FindVertical(int x, int y, int range, int &y_result);
 
 private:
-	CLValue method_hit;
-	CLValue method_find_vertical;
+    CLValue method_hit;
+    CLValue method_find_vertical;
 
-	// gc
-	void set(CLValue &key, CLValue &val);
-	bool get(CLValue &key, CLValue &val); // returns true if key existed
-	void markReferenced();
+    // gc
+    void set(CLValue &key, CLValue &val) override;
+    bool get(CLValue &key, CLValue &val) override; // returns true if key existed
+    void markReferenced() override;
 };
 
-class RectangularShape : public Shape
-{
+class RectangularShape : public Shape {
 public:
-	RectangularShape(CLContext *context, int pos_x, int pos_y, int width, int height);
-	virtual ~RectangularShape();
+    RectangularShape(CLContext *context, int pos_x, int pos_y, int width, int height);
+    ~RectangularShape() override;
 
-	virtual bool Hit(int x, int y);
-	virtual Path FindPath(Vertex start, Vertex goal);
+    bool Hit(int x, int y) override;
+    Path FindPath(Vertex start, Vertex goal) override;
 
-	// SAVE & LOAD STATE //////////////////////////////////////////////
-	static void Save(CLSerialSaver &S, RectangularShape *shape);
-	static RectangularShape *Load(CLSerialLoader &S);
+    // SAVE & LOAD STATE //////////////////////////////////////////////
+    static void Save(CLSerialSaver &S, RectangularShape *shape);
+    static RectangularShape *Load(CLSerialLoader &S);
 
 private:
-	int pos_x, pos_y, width, height;
+    int pos_x, pos_y, width, height;
 
-	friend class Shape;
+    friend class Shape;
 };
 
-class CircularShape : public Shape
-{
+class CircularShape : public Shape {
 public:
-	CircularShape(CLContext *context, int pos_x, int pos_y, int radius);
-	virtual ~CircularShape();
+    CircularShape(CLContext *context, int pos_x, int pos_y, int radius);
+    ~CircularShape() override;
 
-	virtual bool Hit(int x, int y);
-	virtual Path FindPath(Vertex start, Vertex goal);
+    bool Hit(int x, int y) override;
+    Path FindPath(Vertex start, Vertex goal) override;
 
-	// SAVE & LOAD STATE //////////////////////////////////////////////
-	static void Save(CLSerialSaver &S, CircularShape *shape);
-	static CircularShape *Load(CLSerialLoader &S);
+    // SAVE & LOAD STATE //////////////////////////////////////////////
+    static void Save(CLSerialSaver &S, CircularShape *shape);
+    static CircularShape *Load(CLSerialLoader &S);
 
 private:
-	int pos_x, pos_y, radius;
+    int pos_x, pos_y, radius;
 
-	friend class Shape;
+    friend class Shape;
 };
 
 class PolygonShape : public Shape // this shape is always loaded from a resource file
 {
 public:
-	PolygonShape(CLContext *context, const std::string &res_id);
-	virtual ~PolygonShape();
+    PolygonShape(CLContext *context, const std::string &res_id);
+    ~PolygonShape() override;
 
-	virtual bool Hit(int x, int y);
-	virtual Path FindPath(Vertex start, Vertex goal);
+    bool Hit(int x, int y) override;
+    Path FindPath(Vertex start, Vertex goal) override;
 
-	// SAVE & LOAD STATE //////////////////////////////////////////////
-	static void Save(CLSerialSaver &S, PolygonShape *shape);
-	static PolygonShape *Load(CLSerialLoader &S);
+    // SAVE & LOAD STATE //////////////////////////////////////////////
+    static void Save(CLSerialSaver &S, PolygonShape *shape);
+    static PolygonShape *Load(CLSerialLoader &S);
 
 private:
-	std::string res_id;
-	Res::Polygon *polygon;
+    std::string res_id;
+    Res::Polygon *polygon;
 
-	friend class Shape;
+    friend class Shape;
 };
 
 #endif
