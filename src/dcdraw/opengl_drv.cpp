@@ -13,7 +13,8 @@
 //#include <rect_ext.h>
 
 #include <stdio.h>
-namespace DCDraw_OpenGL
+
+namespace DCDraw
 {
 	using namespace DCDraw;
 	

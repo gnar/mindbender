@@ -2,10 +2,8 @@
 
 #include <cstring>
 
-namespace DCDraw_OpenGL
+namespace DCDraw
 {
-	using namespace DCDraw;
-
 	// defined in opengl_drv.cpp
  	extern bool support_rectangular_textures;
 	extern int max_texture_size;

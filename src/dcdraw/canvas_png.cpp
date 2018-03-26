@@ -1,64 +1,10 @@
 #include "canvas_png.h"
 #include "dcdraw.h"
 
-#if defined(DCDRAW_USE_KOS)
-#include <kos.h>
-#include <png/png.h> // in kos ports...
-#include <kos/img.h> // libkosutils
-#elif defined(DCDRAW_USE_OPENGL)
-
 #include <png.h>
 #include <iostream>
 
-#endif
-
 namespace DCDraw {
-
-////////////////////////////////////////////////////////////////////
-// Dreamcast version (KOS)                                        //
-////////////////////////////////////////////////////////////////////
-
-#if defined(DCDRAW_USE_KOS)
-
-    // static
-    Canvas PNG::Load(const std::string &fileName, AlphaMask mask)
-    {
-        std::string fn = GetPathPrefix() + fileName;
-
-        uint32 alpha = 0;
-        switch (mask)
-        {
-            case NOALPHA: alpha = PNG_NO_ALPHA; break;
-            case ALPHA: alpha = PNG_FULL_ALPHA; break;
-        }
-
-        kos_img_t img;
-        if (0 == png_to_img(fn.c_str(), alpha, &img)) {
-
-            Canvas::Format fmt = Canvas::RGB565;
-            switch (KOS_IMG_FMT_I(img.fmt))
-            {
-                case KOS_IMG_FMT_RGB565:   fmt = Canvas::RGB565; break;
-                case KOS_IMG_FMT_ARGB4444: fmt = Canvas::ARGB4444; break;
-                case KOS_IMG_FMT_RGB888:   fmt = Canvas::RGB; break;
-                case KOS_IMG_FMT_ARGB8888: fmt = Canvas::ARGB; break;
-                case KOS_IMG_FMT_RGBA8888: fmt = Canvas::RGBA; break;
-                default: dbgio_printf("PNG image format not supported.\n"); break; // unsupported
-            }
-
-            // steal pixel data from img
-            return Canvas(fmt, (unsigned char*)img.data, img.w, img.h);
-        } else {
-            dbgio_printf("PNG::Load(): Error loading %s\n", fn.c_str());
-            return Canvas();
-        }
-    }
-
-////////////////////////////////////////////////////////////////////
-// Direct libpng version (Unix, Windows, ...)                     //
-////////////////////////////////////////////////////////////////////
-
-#elif defined(DCDRAW_USE_OPENGL)
 
     using std::cout;
     using std::endl;
@@ -186,12 +132,6 @@ namespace DCDraw {
 
         return Canvas(colorType, rgba, width, height, pitch);
     }
-
-////////////////////////////////////////////////////////////////////
-
-#else
-#error "No platform selected! #define either DCDRAW_USE_OPENGL or DCDRAW_USE_KOS"
-#endif
 
 } // ns DCDraw
 

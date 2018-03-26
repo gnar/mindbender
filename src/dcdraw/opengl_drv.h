@@ -1,9 +1,9 @@
 #ifndef OPENGL_DRV_H
 #define OPENGL_DRV_H
 
-#include "../color.h"
+#include "color.h"
 
-namespace DCDraw_OpenGL
+namespace DCDraw
 {
 	void InitGraphics(int screen_width, int screen_height);
 	void DoneGraphics();

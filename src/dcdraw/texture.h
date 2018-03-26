@@ -10,12 +10,12 @@
 #include <GL/gl.h>
 #endif
 	
-#include "../canvas.h"
-#include "../transform.h"
-#include "../color.h"
-#include "../clip.h"
+#include "canvas.h"
+#include "transform.h"
+#include "color.h"
+#include "clip.h"
 
-namespace DCDraw_OpenGL
+namespace DCDraw
 {
 	class Texture
 	{

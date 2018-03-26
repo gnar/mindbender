@@ -1,9 +1,7 @@
-mindbender
-MindBender.exe
-game.xml
-game.scn
-script
-res
+CMakeCache.txt
+CMakeFiles
+Makefile
+cmake_install.cmake
 stdout.txt
 stderr.txt
 stdlog.txt
@@ -13,6 +11,5 @@ savegame.*
 libfmodex.so.4.02.10
 libfmodex.so
 *.o
-*.a
 .idea
-
+mindbender

@@ -135,7 +135,7 @@ namespace DCDraw {
     }
 
     void Canvas::SetPixel(int x, int y, unsigned char r, unsigned char g, unsigned char b, unsigned char a) {
-        if (bitmap.uses() > 1) // Copy on write?
+        if (bitmap.use_count() > 1) // Copy on write?
         {
             bitmap.reset(bitmap->Clone());
         }
