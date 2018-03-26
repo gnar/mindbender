@@ -20,8 +20,9 @@ Libraries you need:
 
 Use cmake to build:
 
-``sh
+``
 cmake .
+
 make
 ``
 
