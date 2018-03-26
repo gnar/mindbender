@@ -18,7 +18,11 @@ Libraries you need:
  3. OpenGL
  4. PhysFS
 
-Use cmake to build.
+Use cmake to build:
+``
+cmake .
+make
+``
 
 Libraries used:
 ---------------
