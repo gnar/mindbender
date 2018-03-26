@@ -14,7 +14,9 @@ namespace DCDraw {
     const std::string &GetPathPrefix();
 }
 
+#if !defined(DCDRAW_USE_OPENGL) && !defined(DCDRAW_USE_KOS)
 #define DCDRAW_USE_OPENGL
+#endif
 
 #if defined(DCDRAW_USE_OPENGL)
 

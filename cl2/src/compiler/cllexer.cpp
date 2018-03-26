@@ -161,7 +161,7 @@ CLLexeme CLLexer::readNumber()
 	tmpstr[bufpos++] = '\0';
 	
 	CLLexeme lexeme(isfloat ? TOK_FLOAT : TOK_INTEGER);
-	if (isfloat) lexeme.real = std::strtod(tmpstr, NULL); else lexeme.integer = std::atoi(tmpstr);
+	if (isfloat) lexeme.real = std::strtod(tmpstr, nullptr); else lexeme.integer = std::atoi(tmpstr);
 	return lexeme;
 }
 

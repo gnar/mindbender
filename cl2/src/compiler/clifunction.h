@@ -42,7 +42,7 @@ public:
 
 	void addInstruction(CLIInstruction *iinst);
 
-	void beginBlock(CLIInstruction *break_target = 0);
+	void beginBlock(CLIInstruction *break_target = nullptr);
 	void endBlock();
 	CLIInstruction *getBreakTarget(int &locals_to_pop, int level = 1);
 

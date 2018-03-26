@@ -35,7 +35,7 @@
 //using namespace std;
 
 CLCompiler::CLCompiler(CLContext *context, CLLexer &lexer) 
-	: context(context), lexer(lexer), last_lineop(-1), l(TOK_ERROR), fp(0), stack_usage(0)
+	: context(context), lexer(lexer), last_lineop(-1), l(TOK_ERROR), fp(nullptr), stack_usage(0)
 { 
 	is_in_root_env = false;
 }
@@ -875,7 +875,7 @@ void CLCompiler::factorExpr()
 			suffixedExpr(SUF_EXPR);
 			break;
 
-#if 0
+#if 1
 		case '$':
 			fp->addInstruction(new CLIInstruction(OP_PUSHSELF));
 			lex();

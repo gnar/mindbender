@@ -75,7 +75,7 @@ void Game_::Start() // (Re)Start a new game
         gameloader.RunSceneScripts();
         gameloader.RunStartScripts();
     }
-    cout << "done Init game" << endl;
+    cout << "done init game" << endl;
 
     loaded = true;
 }
@@ -90,6 +90,7 @@ void Game_::Stop() // Kill current game
     context.clear(); // clear script vm
 
     loaded = false;
+    cout << "done stop game" << endl;
 }
 
 ////////////////////////////////////////////////////////////
