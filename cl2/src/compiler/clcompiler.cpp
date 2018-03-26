@@ -256,24 +256,6 @@ void CLCompiler::statement()
 			break;
 #endif
 
-#ifdef AGENT_EXT
-		case TOK_TRANSITION:
-		{
-			transitionStatement();
-			break;
-		};
-
-		case TOK_DELEGATE:
-		{
-			delegateStatement();
-			break;
-		};
-
-		case TOK_TERMINATE:
-			terminateStatement();
-			break;
-#endif
-
 		default: // expression statement (discards result)
 			expressionExpr(); 
 			fp->addInstruction(new CLIInstruction(OP_POP, 1));
@@ -952,17 +934,6 @@ void CLCompiler::factorExpr()
 			suffixedExpr(SUF_EXPR);
 			break;
 
-#ifdef AGENT_EXT
-		case TOK_AGENT:
-			if (!is_in_root_env) {
-				error("parse", "No agent expressions are allowed an non-root environment");
-			}
-			lex();
-			agentConstructorExpr();
-			suffixedExpr(SUF_EXPR);
-			break;
-#endif
-
 		case TOK_EXTERNAL: // syntax: <expr> = external function <identifier>
 		{
 			lex();
@@ -1205,5 +1176,4 @@ void CLCompiler::arrayConstructorExpr()
 }
 
 #include "clcompiler_mindbender_ext.cpp"
-#include "clcompiler_agent_ext.cpp"
 

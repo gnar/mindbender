@@ -242,14 +242,6 @@ static struct CLKeywordDef
 #ifdef MINDBENDER_EXT
 	{"event", TOK_EVENT},
 #endif
-	
-#ifdef AGENT_EXT
-	{"agent", TOK_AGENT},
-	{"state", TOK_STATE},
-	{"terminate", TOK_TERMINATE},
-	{"transition", TOK_TRANSITION},
-	{"delegate", TOK_DELEGATE},
-#endif
 };
 static int num_keywords = sizeof(keywords) / sizeof(CLKeywordDef);
 

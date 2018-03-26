@@ -76,18 +76,10 @@ enum CLToken
 	TOK_CLONE,	// clone
 
 	TOK_SWITCH,	// switch
-	TOK_CASE	// case
+	TOK_CASE,	// case
 
 #ifdef MINDBENDER_EXT
-	,TOK_EVENT	// event
-#endif
-
-#ifdef AGENT_EXT
-	,TOK_AGENT	// agent
-	,TOK_STATE	// state
-	,TOK_TERMINATE	// terminate
-	,TOK_TRANSITION // transition
-	,TOK_DELEGATE   // delegate
+	TOK_EVENT,	// event
 #endif
 };
 

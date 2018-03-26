@@ -72,16 +72,6 @@ private:
 	void eventStatement();
 #endif
 
-#ifdef AGENT_EXT
-	//void agentStatement();
-	void transitionStatement();
-	void terminateStatement();
-	void delegateStatement();
-	void parseDelegateSpecifier();
-
-	void agentConstructorExpr();
-#endif
-
 	void expressionExpr();
 	void logicalOrExpr();
 	void logicalAndExpr();

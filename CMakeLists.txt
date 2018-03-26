@@ -25,8 +25,6 @@ include_directories(.)
 add_executable(mindbender
         cl2/src/compiler/clcompiler.cpp
         cl2/src/compiler/clcompiler.h
-        cl2/src/compiler/clcompiler_agent_ext.cpp
-        cl2/src/compiler/clcompiler_mindbender_ext.cpp
         cl2/src/compiler/clifunction.cpp
         cl2/src/compiler/clifunction.h
         cl2/src/compiler/cliinstruction.cpp
