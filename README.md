@@ -21,6 +21,7 @@ Libraries you need:
 Use cmake to build:
 
 > cmake .
+
 > make
 
 Libraries used:
