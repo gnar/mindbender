@@ -20,11 +20,8 @@ Libraries you need:
 
 Use cmake to build:
 
-``
-cmake .
-
-make
-``
+> cmake .
+> make
 
 Libraries used:
 ---------------
