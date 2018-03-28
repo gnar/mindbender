@@ -100,7 +100,7 @@ namespace Res {
         if (!Manager.ExistsFile(id)) return nullptr; // file not found
 
         // Set sound streamed or buffered
-        /*std::string ext = GetFileExtension(id);
+        std::string ext = GetFileExtension(id);
         if (ext == "wav")
         {
             return new Sound(id, false); // buffered
@@ -109,7 +109,7 @@ namespace Res {
         if (ext == "ogg" || ext == "mp3")
         {
             return new Sound(id, true); // streamed
-        }*/
+        }
 
         return nullptr; // unknown file extension
     }

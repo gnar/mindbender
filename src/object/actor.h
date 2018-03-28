@@ -58,7 +58,7 @@ public:
     int GetHeight() { return height; }
 
     // SAVE & LOAD STATE //////////////////////////////////////////////
-    static void Save(CLSerialSaver &S, Actor *bagitem);
+    static void Save(CLSerialSaver &S, Actor *actor);
     static Actor *Load(CLSerialLoader &S);
 
 private:
